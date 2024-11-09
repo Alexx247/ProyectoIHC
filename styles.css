@@ -1,0 +1,71 @@
+/* Estilos para el encabezado */
+.header {
+  background-color: #0066cc;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  position: fixed; /* Fija el encabezado en la parte superior */
+  top: 0; /* Posiciona el encabezado en la parte superior */
+  width: 100%; /* Asegura que ocupe todo el ancho de la pantalla */
+  z-index: 1000; /* Asegura que esté por encima de otros elementos */
+}
+
+/* Contenedor general con margen para evitar solapamiento */
+.container-fluid {
+  padding-top: 100px; /* Ajusta según la altura del header */
+}
+
+/* Barra lateral fija */
+.sidebar {
+  background-color: #cccccc;
+  height: 100vh;
+  padding-top: 20px;
+  color: black;
+  position: fixed;
+  top: 120px; /* Para no solaparse con el header */
+  width: 260px;
+}
+
+.sidebar .nav-link {
+  color: black;
+  font-size: 20px;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+}
+
+.sidebar .nav-link img {
+  width: 30px;
+  height: 30px;
+  margin-right: 15px;
+}
+
+.sidebar .nav-link:hover {
+  background-color: #575757;
+}
+
+/* Estilos para el contenido principal */
+.main-content {
+  margin-top: 150px; /* Ajusta este valor a la altura del encabezado */
+  margin-left: 280px; /* Espacio suficiente para el sidebar */
+  padding: 20px;
+}
+
+/* Estilos para el pie de página */
+.footer {
+  background-color: #0066cc;
+  color: white;
+  text-align: right;
+  padding: 10px;
+  margin-top: 20px;
+}
+
+/* Estilos para los botones y tablas */
+.btn-group {
+  margin-bottom: 20px;
+}
+
+.table {
+  margin-top: 20px;
+  font-size: 14px;
+}
