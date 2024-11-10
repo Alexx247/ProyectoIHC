@@ -52,72 +52,150 @@
 
   <!-- Formulario de Registro de Préstamo -->
   <h2>Registro de préstamo</h2>
-  <form>
-    <div class="mb-3">
-      <label for="idDispositivo" class="form-label">ID del dispositivo</label>
-      <input type="text" class="form-control" id="idDispositivo" placeholder="Ingrese el ID del dispositivo">
-    </div>
-    <div class="mb-3">
-      <label for="numeroControl" class="form-label">N° Control Alumno</label>
-      <input type="text" class="form-control" id="numeroControl" placeholder="Ingrese el número de control">
-    </div>
-    <div class="mb-3">
-      <label for="fechaSolicitud" class="form-label">Fecha de Solicitud</label>
-      <input type="date" class="form-control" id="fechaSolicitud">
-    </div>
-    <div class="mb-3">
-      <label for="fechaFin" class="form-label">Fecha Limite</label>
-      <input type="date" class="form-control" id="fechaFin">
-    </div>
-    <div class="mb-3">
-      <label for="aula" class="form-label">Aula</label>
-      <input type="text" class="form-control" id="aula" placeholder="Ingrese el aula">
-    </div>
-    <div class="btn-group">
-      <button type="button" class="btn btn-primary">Solicitar</button>
-      <button type="button" class="btn btn-danger">Devolver</button>
-    </div>
+  <form id="prestamoForm">
+      <div class="mb-3">
+          <label for="idDispositivo" class="form-label">ID del dispositivo</label>
+          <input type="text" class="form-control" id="idDispositivo" name="idDispositivo" placeholder="Ingrese el ID del dispositivo" required>
+      </div>
+      <div class="mb-3">
+          <label for="numC" class="form-label">N° Control Alumno</label>
+          <input type="text" class="form-control" id="numC" name="numC" placeholder="Ingrese el número de control" required>
+      </div>
+      <div class="mb-3">
+          <label for="fechaSolicitud" class="form-label">Fecha de Solicitud</label>
+          <input type="date" class="form-control" id="fechaSolicitud" name="fechaSolicitud" required>
+      </div>
+      <div class="mb-3">
+          <label for="fechaEntrega" class="form-label">Fecha Limite</label>
+          <input type="date" class="form-control" id="fechaEntrega" name="fechaEntrega" required>
+      </div>
+      <div class="mb-3">
+          <label for="aula" class="form-label">Aula</label>
+          <input type="text" class="form-control" id="aula" name="aula" placeholder="Ingrese el aula" required>
+      </div>
+      <div class="btn-group">
+          <button type="button" class="btn btn-primary" onclick="enviarFormulario()">Solicitar</button>
+      </div>
   </form>
+
+  <!-- Modal para mostrar mensajes -->
+  <div class="modal fade" id="resultadoModal" tabindex="-1" aria-labelledby="resultadoModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="resultadoModalLabel">Resultado</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+              </div>
+              <div class="modal-body" id="modalMensaje">
+                  <!-- Aquí se mostrará el mensaje de éxito o error -->
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <script>
+  // Función para enviar el formulario con AJAX
+  function enviarFormulario() {
+      const formData = new FormData(document.getElementById('prestamoForm'));
+
+      fetch('insertar_prestamo.php', {
+          method: 'POST',
+          body: formData
+      })
+      .then(response => response.text())
+      .then(data => {
+          // Mostrar el mensaje en el cuerpo de la modal
+          document.getElementById('modalMensaje').innerHTML = data;
+
+          // Mostrar la modal de resultado
+          new bootstrap.Modal(document.getElementById('resultadoModal')).show();
+
+          // Limpiar el formulario después del envío
+          document.getElementById('prestamoForm').reset();
+
+          // Actualizar la tabla después de registrar el préstamo
+          actualizarTabla();
+      })
+      .catch(error => {
+          console.error('Error:', error);
+      });
+  }
+
+  // Función para actualizar la tabla con los datos más recientes
+  function actualizarTabla() {
+      fetch('obtener_prestamos.php')
+      .then(response => response.text())
+      .then(data => {
+          // Reemplazar el contenido de la tabla con los nuevos datos
+          document.querySelector("table tbody").innerHTML = data;
+      })
+      .catch(error => {
+          console.error('Error al actualizar la tabla:', error);
+      });
+  }
+  </script>
+
+  <?php
+  // Conexión a la base de datos
+  $conexion = new mysqli("localhost:3307", "root", "", "gestioninventario");
+
+  // Verificar conexión
+  if ($conexion->connect_error) {
+      die("Error de conexión: " . $conexion->connect_error);
+  }
+
+  // Consulta SQL para obtener los datos de la tabla registroprestamo
+  $sql = "SELECT idDispositivo, numC, fechaSolicitud, fechaEntrega, aula FROM registroprestamo";
+  $resultado = $conexion->query($sql);
+  ?>
 
   <!-- Tabla de Datos -->
   <h3>Préstamos actuales</h3>
   <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>ID dispositivo</th>
-        <th>N° Control Alumno</th>
-        <th>Fecha de Solicitud</th>
-        <th>Fecha Limite</th>
-        <th>Aula</th>
-        <th>Estado</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- Ejemplo de datos; se deberá rellenar con datos dinámicos de la base de datos -->
-      <tr>
-        <td>12345</td>
-        <td>20221001</td>
-        <td>2024-11-04</td>
-        <td>2024-11-06</td>
-        <td>Aula 101</td>
-        <td>Pendiente</td>
-      </tr>
-      <tr>
-        <td>67890</td>
-        <td>20231002</td>
-        <td>2024-11-03</td>
-        <td>2024-11-07</td>
-        <td>Aula 202</td>
-        <td>Devuelto</td>
-      </tr>
-    </tbody>
+      <thead>
+          <tr>
+              <th>ID dispositivo</th>
+              <th>N° Control Alumno</th>
+              <th>Fecha de Solicitud</th>
+              <th>Fecha Limite</th>
+              <th>Aula</th>
+          </tr>
+      </thead>
+      <tbody>
+          <?php
+          // Verificar si hay resultados
+          if ($resultado->num_rows > 0) {
+              // Recorrer y mostrar los datos de cada fila
+              while($fila = $resultado->fetch_assoc()) {
+                  echo "<tr>";
+                  echo "<td>" . $fila["idDispositivo"] . "</td>";
+                  echo "<td>" . $fila["numC"] . "</td>";
+                  echo "<td>" . $fila["fechaSolicitud"] . "</td>";
+                  echo "<td>" . $fila["fechaEntrega"] . "</td>";
+                  echo "<td>" . $fila["aula"] . "</td>";
+                  echo "</tr>";
+              }
+          } else {
+              // Mensaje si no hay datos
+              echo "<tr><td colspan='5'>No hay préstamos registrados actualmente</td></tr>";
+          }
+          ?>
+      </tbody>
   </table>
-</div>
 
-<!-- Pie de Página -->
-<div class="footer">
-  <p>&copy; 2024 - Instituto Tecnologico del Sur de Nayarit - Gestion de Inventario</p>
-</div>
+  <?php
+  // Cerrar la conexión a la base de datos
+  $conexion->close();
+  ?>
+
+  <hr>
+  <!-- Pie de Página -->
+  <div class="footer">
+    <p>&copy; 2024 - Instituto Tecnologico del Sur de Nayarit - Gestion de Inventario</p>
+  </div>
 
 </body>
 </html>

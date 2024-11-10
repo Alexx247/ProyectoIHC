@@ -68,19 +68,20 @@
         <option value="Fuera de servicio">Fuera de servicio</option>
       </select>
     </div>
+
     <div class="mb-3">
       <label for="descripcion" class="form-label">Descripción</label>
       <textarea class="form-control" id="descripcion" placeholder="Ingrese una descripción"></textarea>
     </div>
+    <!-- Botones -->
     <div class="btn-group">
-      <button type="button" class="btn btn-primary">Nuevo</button>
-      <button type="button" class="btn btn-success">Editar</button>
-      <button type="button" class="btn btn-danger">Eliminar</button>
+      <button type="button" class="btn btn-primary">Guardar</button>
     </div>
   </form>
 
   <!-- Tabla de Datos -->
   <h3>Dispositivos Registrados</h3>
+  
   <table class="table table-striped">
     <thead>
       <tr>
