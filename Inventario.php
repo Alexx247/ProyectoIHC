@@ -81,35 +81,7 @@
 
   <!-- Tabla de Datos -->
   <h3>Dispositivos Registrados</h3>
-  
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Código</th>
-        <th>Nombre</th>
-        <th>Marca</th>
-        <th>Estado</th>
-        <th>Descripción</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>001</td>
-        <td>Laptop</td>
-        <td>Dell</td>
-        <td>Disponible</td>
-        <td>Laptop para uso general</td>
-      </tr>
-      <tr>
-        <td>002</td>
-        <td>Proyector</td>
-        <td>Benq</td>
-        <td>En préstamo</td>
-        <td>Proyector de alta definición</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+  </div>
 
 <!-- Pie de Página -->
 <div class="footer">
