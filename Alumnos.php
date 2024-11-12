@@ -19,7 +19,7 @@
 <!-- Barra de Navegación Vertical -->
 <div class="sidebar position-fixed">
   <nav class="nav flex-column">
-    <a class="nav-link active" href="Inicio.php">
+    <a class="nav-link active" href="index.php">
       <img src="img/inicio-foto.png" alt="Icono Inicio">
       Inicio
     </a>
