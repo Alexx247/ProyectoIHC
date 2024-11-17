@@ -382,7 +382,7 @@
                     }
                 } else {
                     // Mensaje si no hay datos
-                    echo "<tr><td colspan='6'>No hay préstamos registrados actualmente</td></tr>";
+                    echo "<tr><td colspan='7'>No hay préstamos registrados actualmente</td></tr>";
                 }
                 ?>
             </tbody>

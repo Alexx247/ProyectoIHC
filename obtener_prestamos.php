@@ -27,7 +27,7 @@ if ($resultado->num_rows > 0) {
     }
 } else {
     // Mensaje si no hay datos
-    echo "<tr><td colspan='5'>No hay préstamos registrados actualmente</td></tr>";
+    echo "<tr><td colspan='7'>No hay préstamos registrados actualmente</td></tr>";
 }
 
 // Cerrar la conexión a la base de datos
