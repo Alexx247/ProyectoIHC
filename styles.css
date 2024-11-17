@@ -1,28 +1,32 @@
 /* Estilos para el encabezado */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+body {
+  font-family: 'Montserrat', sans-serif;
+}
+
 .header {
   background-color: #0066cc;
   color: white;
   padding: 20px;
   text-align: center;
-  position: fixed; /* Fija el encabezado en la parte superior */
-  top: 0; /* Posiciona el encabezado en la parte superior */
-  width: 100%; /* Asegura que ocupe todo el ancho de la pantalla */
-  z-index: 1000; /* Asegura que esté por encima de otros elementos */
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
 }
 
-/* Contenedor general con margen para evitar solapamiento */
 .container-fluid {
-  padding-top: 100px; /* Ajusta según la altura del header */
+  padding-top: 100px;
 }
 
-/* Barra lateral fija */
 .sidebar {
   background-color: #cccccc;
   height: 100vh;
   padding-top: 20px;
   color: black;
   position: fixed;
-  top: 120px; /* Para no solaparse con el header */
+  top: 120px;
   width: 260px;
 }
 
@@ -44,14 +48,12 @@
   background-color: #575757;
 }
 
-/* Estilos para el contenido principal */
 .main-content {
-  margin-top: 150px; /* Ajusta este valor a la altura del encabezado */
-  margin-left: 280px; /* Espacio suficiente para el sidebar */
+  margin-top: 150px;
+  margin-left: 280px;
   padding: 20px;
 }
 
-/* Estilos para el pie de página */
 .footer {
   background-color: #0066cc;
   color: white;
@@ -60,7 +62,6 @@
   margin-top: 20px;
 }
 
-/* Estilos para los botones y tablas */
 .btn-group {
   margin-bottom: 20px;
 }
@@ -70,7 +71,6 @@
   font-size: 14px;
 }
 
-/* Estilos para el modal */
 #modal {
   position: fixed;
   top: 0;

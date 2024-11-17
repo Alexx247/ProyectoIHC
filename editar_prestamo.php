@@ -7,24 +7,26 @@ if ($conexion->connect_error) {
     die("Error de conexión: " . $conexion->connect_error);
 }
 
-// Obtener los datos enviados desde el formulario
+// Recibir datos del formulario de edición
 $idDispositivo = $_POST['idDispositivo'];
 $numC = $_POST['numC'];
 $fechaSolicitud = $_POST['fechaSolicitud'];
 $fechaEntrega = $_POST['fechaEntrega'];
 $aula = $_POST['aula'];
 
-// Preparar y ejecutar la consulta SQL
-$sql = "INSERT INTO registroprestamo (idDispositivo, numC, fechaSolicitud, fechaEntrega, aula) VALUES (?, ?, ?, ?, ?)";
+// Actualizar el registro en la base de datos
+$sql = "UPDATE registroprestamo SET numC = ?, fechaSolicitud = ?, fechaEntrega = ?, aula = ? WHERE idDispositivo = ?";
 $stmt = $conexion->prepare($sql);
 
 if ($stmt) {
-    $stmt->bind_param("sssss", $idDispositivo, $numC, $fechaSolicitud, $fechaEntrega, $aula);
+    // Usar bind_param con los parámetros correctos
+    $stmt->bind_param("sssss", $numC, $fechaSolicitud, $fechaEntrega, $aula, $idDispositivo);
 
     if ($stmt->execute()) {
-        echo "Préstamo registrado exitosamente.";
+        // Respuesta de éxito
+        echo "Préstamo actualizado correctamente.";
     } else {
-        echo "Error al registrar el préstamo: " . $stmt->error;
+        echo "Error al actualizar el préstamo: " . $stmt->error;
     }
 
     $stmt->close();
@@ -32,5 +34,6 @@ if ($stmt) {
     echo "Error al preparar la consulta: " . $conexion->error;
 }
 
+// Cerrar conexión
 $conexion->close();
 ?>

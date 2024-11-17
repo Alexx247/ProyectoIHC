@@ -16,11 +16,13 @@ if ($resultado->num_rows > 0) {
     // Recorrer y mostrar los datos de cada fila
     while ($fila = $resultado->fetch_assoc()) {
         echo "<tr>";
-        echo "<td>" . $fila["idDispositivo"] . "</td>";
-        echo "<td>" . $fila["numC"] . "</td>";
-        echo "<td>" . $fila["fechaSolicitud"] . "</td>";
-        echo "<td>" . $fila["fechaEntrega"] . "</td>";
-        echo "<td>" . $fila["aula"] . "</td>";
+        echo "<td class='text-center'>" . $fila["idDispositivo"] . "</td>";
+        echo "<td class='text-center'>" . $fila["numC"] . "</td>";
+        echo "<td class='text-center'>" . $fila["fechaSolicitud"] . "</td>";
+        echo "<td class='text-center'>" . $fila["fechaEntrega"] . "</td>";
+        echo "<td class='text-center'>" . $fila["aula"] . "</td>";
+        echo "<td class='text-center'>" . "<button class='btn btn-warning btn-sm' onclick=\"mostrarEditarModal('" . $fila["idDispositivo"] . "', '" . $fila["numC"] . "', '" . $fila["fechaSolicitud"] . "', '" . $fila["fechaEntrega"] . "', '" . $fila["aula"] . "')\">Editar</button> " . "</td>";
+        echo "<td class='text-center'>" . "<button class='btn btn-danger btn-sm' onclick=\"eliminarPrestamo('" . $fila["idDispositivo"] . "')\">Eliminar</button>" . "</td>";
         echo "</tr>";
     }
 } else {
