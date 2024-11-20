@@ -116,28 +116,40 @@
                     </div>
                     <div class="modal-body">
                         <form id="editarAlumnoForm">
-                            <input type="hidden" id="editAlumno" name="nombres">
+                            <!-- Campo oculto para numControl -->
+                            <input type="hidden" id="editNumControl" name="numControl">
+
+                            <!-- Campo para nombres -->
                             <div class="mb-3">
                                 <label for="editNombres" class="form-label">Nombres</label>
                                 <input type="text" class="form-control" id="editNombres" name="nombres" required>
                             </div>
+
+                            <!-- Campo para apellido paterno -->
                             <div class="mb-3">
                                 <label for="editApPat" class="form-label">Apellido Paterno</label>
-                                <input type="text" class="form-control" id="editApPat" name="ApPat" required>
+                                <input type="text" class="form-control" id="editApPat" name="apPat" required>
                             </div>
+
+                            <!-- Campo para apellido materno -->
                             <div class="mb-3">
                                 <label for="editApMat" class="form-label">Apellido Materno</label>
-                                <input type="text" class="form-control" id="editApMat" name="ApMat" required>
+                                <input type="text" class="form-control" id="editApMat" name="apMat" required>
                             </div>
+
+                            <!-- Campo para teléfono -->
                             <div class="mb-3">
-                                <label for="editTelefono" class="form-label">Telefono</label>
-                                <input type="text" class="form-control" id="editTelefono" name="Telefono" required>
+                                <label for="editTelefono" class="form-label">Teléfono</label>
+                                <input type="text" class="form-control" id="editTelefono" name="telefono" required>
                             </div>
+
+                            <!-- Campo para domicilio -->
                             <div class="mb-3">
                                 <label for="editDomicilio" class="form-label">Domicilio</label>
                                 <input type="text" class="form-control" id="editDomicilio" name="domicilio" required>
                             </div>
 
+                            <!-- Botón para guardar -->
                             <button type="button" class="btn btn-success" onclick="actualizarAlumno()">Guardar
                                 Cambios</button>
                         </form>
@@ -145,6 +157,7 @@
                 </div>
             </div>
         </div>
+
 
         <!-- Modal para mostrar mensaje de se edito exitosamente el alumno -->
         <div class="modal fade" id="resultadoModalEditar" tabindex="-1" aria-labelledby="resultadoModalLabelEditar"
@@ -258,13 +271,15 @@
 
             //Mostrar datos de la tabla para edición
             function mostrarEditarModal(numControl, nombres, apPat, apMat, telefono, domicilio) {
+                document.getElementById('editNumControl').value = numControl; // Llena el campo oculto
                 document.getElementById('editNombres').value = nombres;
                 document.getElementById('editApPat').value = apPat;
                 document.getElementById('editApMat').value = apMat;
                 document.getElementById('editTelefono').value = telefono;
                 document.getElementById('editDomicilio').value = domicilio;
-                new bootstrap.Modal(document.getElementById('editarModal')).show();
+                new bootstrap.Modal(document.getElementById('editarModal')).show(); // Muestra el modal
             }
+
             // Función para mostrar el modal de confirmación de eliminación
             function eliminarAlumno(numControl) {
                 // Asignar el N.C al botón de confirmar eliminación
@@ -339,6 +354,10 @@
                     })
                     .catch(error => console.error('Error:', error));
             }
+            document.getElementById('editarAlumnoForm').addEventListener('submit', function (event) {
+                event.preventDefault(); // Evita que el formulario recargue la página
+                actualizarAlumno();
+            });
         </script>
 
         <?php

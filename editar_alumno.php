@@ -16,12 +16,12 @@ $telefono = $_POST['telefono'];
 $domicilio = $_POST['domicilio'];
 
 // Actualizar el registro en la base de datos
-$sql = "UPDATE alumno SET nombres = ?, apPat = ?, apMat = ?, telefono = ?, domicilio = ? WHERE numControl = ?";
+$sql = "UPDATE alumnos SET nombres = ?, apPat = ?, apMat = ?, telefono = ?, domicilio = ? WHERE numControl = ?";
 $stmt = $conexion->prepare($sql);
 
 if ($stmt) {
     // Usar bind_param con los parámetros correctos
-    $stmt->bind_param("sssss", $nombres, $apPat, $apMat, $telefono, $domicilio, $numControl);
+    $stmt->bind_param("sssssi", $nombres, $apPat, $apMat, $telefono, $domicilio, $numControl);
 
     if ($stmt->execute()) {
         // Respuesta de éxito
