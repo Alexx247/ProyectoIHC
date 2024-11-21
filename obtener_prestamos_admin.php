@@ -1,15 +1,4 @@
 <?php
-// Iniciar sesión
-session_start();
-
-// Verificar si el usuario ha iniciado sesión
-if (!isset($_SESSION['usuario_id'])) {
-    die("Error: No se ha iniciado sesión.");
-}
-
-// Obtener el idUsuario desde la sesión
-$idUsuario = $_SESSION['usuario_id'];
-
 // Conexión a la base de datos
 $conexion = new mysqli("localhost:3307", "root", "", "gestioninventario");
 
@@ -18,15 +7,9 @@ if ($conexion->connect_error) {
     die("Error de conexión: " . $conexion->connect_error);
 }
 
-// Consulta SQL para obtener los datos de los préstamos realizados por el usuario
-$sql = "SELECT idDispositivo, numC, fechaSolicitud, fechaEntrega, aula 
-        FROM registroprestamo 
-        WHERE idUsuario = ?"; // Filtrar por el idUsuario
-
-$stmt = $conexion->prepare($sql);
-$stmt->bind_param("i", $idUsuario); // Usamos "i" porque idUsuario es un entero
-$stmt->execute();
-$resultado = $stmt->get_result();
+// Consulta SQL para obtener los datos de la tabla registroprestamo
+$sql = "SELECT idDispositivo, numC, fechaSolicitud, fechaEntrega, aula FROM registroprestamo";
+$resultado = $conexion->query($sql);
 
 // Verificar si hay resultados
 if ($resultado->num_rows > 0) {

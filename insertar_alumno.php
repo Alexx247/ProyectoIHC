@@ -14,25 +14,24 @@ $apPat = $_POST['apPat'];
 $apMat = $_POST['apMat'];
 $telefono = $_POST['telefono'];
 $domicilio = $_POST['domicilio'];
+$carrera = $_POST['carrera'];
 
 // Verificar que todos los datos obligatorios estén presentes
-if (!$numControl || !$nombres || !$apPat || !$domicilio) {
+if (!$numControl || !$nombres || !$apPat || !$domicilio || !$carrera) {
     die("Error: Por favor completa todos los campos obligatorios.");
 }
 
 // Preparar y ejecutar la consulta SQL
-$sql = "INSERT INTO alumnos (numControl, nombres, apPat, apMat, telefono, domicilio) VALUES (?, ?, ?, ?, ?, ?)";
+$sql = "INSERT INTO alumnos (numControl, nombres, apPat, apMat, telefono, domicilio, carrera) VALUES (?, ?, ?, ?, ?, ?, ?)";
 $stmt = $conexion->prepare($sql);
 
 if ($stmt) {
-    // Vincular parámetros (corrigiendo la cantidad y tipos de datos)
-    $stmt->bind_param("ssssss", $numControl, $nombres, $apPat, $apMat, $telefono, $domicilio);
-
-    // Ejecutar la consulta
+    $stmt->bind_param("sssssss", $numControl, $nombres, $apPat, $apMat, $telefono, $domicilio, $carrera);
+    
     if ($stmt->execute()) {
-        echo "Alumno registrado exitosamente.";
+        echo "Alumno(a) agregado correctamente.";
     } else {
-        echo "Error al registrar al alumno: " . $stmt->error;
+        echo "Error al agregar el alumno(a): " . $stmt->error;
     }
 
     $stmt->close();

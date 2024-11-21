@@ -26,21 +26,25 @@ include 'verificar_sesion.php';
     <!-- Barra de Navegación Vertical -->
     <div class="sidebar position-fixed">
         <nav class="nav flex-column">
-            <a class="nav-link active" href="inicio_usuario.php">
+            <a class="nav-link active" href="inicio_admin.php">
                 <img src="img/inicio-foto.png" alt="Icono Inicio">
                 Inicio
             </a>
-            <a class="nav-link" href="Inventario.php">
+            <a class="nav-link" href="Inventario_admin.php">
                 <img src="img/inventario-foto.png" alt="Icono Inventario">
                 Inventario
             </a>
-            <a class="nav-link" href="Alumnos.php" style="color: #0066cc;">
+            <a class="nav-link" href="Alumnos_admin.php" style="color: #0066cc;">
                 <img src="img/alumnos-azul.png" alt="Icono Alumnos">
                 Alumnos
             </a>
-            <a class="nav-link" href="Prestamos.php">
+            <a class="nav-link" href="Prestamos_admin.php">
                 <img src="img/prestamos-foto.png" alt="Icono Préstamos">
                 Préstamos
+            </a>
+            <a class="nav-link" href="Estadisticas.php">
+                <img src="img/estadisticas_foto.png" alt="Icono estadisticas">
+                Estadísticas
             </a>
             <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">
             <img src="img/salir-foto.png" alt="Icono Cerrar Sesión">
@@ -183,7 +187,6 @@ include 'verificar_sesion.php';
             </div>
         </div>
 
-
         <!-- Modal para mostrar mensaje de se edito exitosamente el alumno -->
         <div class="modal fade" id="resultadoModalEditar" tabindex="-1" aria-labelledby="resultadoModalLabelEditar"
             aria-hidden="true">
@@ -241,7 +244,7 @@ include 'verificar_sesion.php';
                 </div>
             </div>
         </div>
-<!-- Modal de Confirmación de Cerrar Sesión -->
+        <!-- Modal de Confirmación de Cerrar Sesión -->
 <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -259,6 +262,7 @@ include 'verificar_sesion.php';
         </div>
     </div>
 </div>
+
         <script>
             // Función para enviar el formulario con AJAX
             function enviarFormulario() {
@@ -313,26 +317,16 @@ include 'verificar_sesion.php';
             }
 
             //Mostrar datos de la tabla para edición
-<<<<<<< HEAD
             function mostrarEditarModal(numControl, nombres, apPat, apMat, telefono, domicilio, carrera) {
-=======
-            function mostrarEditarModal(numControl, nombres, apPat, apMat, telefono, domicilio) {
->>>>>>> 32fd89ab8e42ea0f4261536ee9245ace05be2dd9
                 document.getElementById('editNumControl').value = numControl; // Llena el campo oculto
                 document.getElementById('editNombres').value = nombres;
                 document.getElementById('editApPat').value = apPat;
                 document.getElementById('editApMat').value = apMat;
                 document.getElementById('editTelefono').value = telefono;
                 document.getElementById('editDomicilio').value = domicilio;
-<<<<<<< HEAD
                 document.getElementById('editCarrera').value = carrera;
                     new bootstrap.Modal(document.getElementById('editarModal')).show();
                 }
-=======
-                new bootstrap.Modal(document.getElementById('editarModal')).show(); // Muestra el modal
-            }
-
->>>>>>> 32fd89ab8e42ea0f4261536ee9245ace05be2dd9
             // Función para mostrar el modal de confirmación de eliminación
             function eliminarAlumno(numControl) {
                 // Asignar el N.C al botón de confirmar eliminación
@@ -407,10 +401,6 @@ include 'verificar_sesion.php';
                     })
                     .catch(error => console.error('Error:', error));
             }
-            document.getElementById('editarAlumnoForm').addEventListener('submit', function (event) {
-                event.preventDefault(); // Evita que el formulario recargue la página
-                actualizarAlumno();
-            });
         </script>
 
         <?php

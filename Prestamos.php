@@ -1,3 +1,7 @@
+<?php
+include 'verificar_sesion.php';
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -22,7 +26,7 @@
   <!-- Barra de Navegación Vertical -->
   <div class="sidebar position-fixed">
     <nav class="nav flex-column">
-      <a class="nav-link active" href="index.php">
+      <a class="nav-link active" href="inicio_usuario.php">
         <img src="img/inicio-foto.png" alt="Icono Inicio">
         Inicio
       </a>
@@ -38,9 +42,30 @@
         <img src="img/prestamos-azul.png" alt="Icono Préstamos">
         Préstamos
       </a>
+      <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">
+            <img src="img/salir-foto.png" alt="Icono Cerrar Sesión">
+            Cerrar Sesión
+        </a>
     </nav>
   </div>
-
+<!-- Modal de Confirmación de Cerrar Sesión -->
+<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="logoutModalLabel">Cerrar Sesión</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                ¿Estás seguro de que deseas cerrar sesión?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <a href="cerrar_sesion.php" class="btn btn-danger">Sí, cerrar sesión</a>
+            </div>
+        </div>
+    </div>
+</div>
   <!-- Contenido Principal -->
   <div class="main-content">
     <!-- Mensajes con botón de cierre -->
@@ -53,7 +78,7 @@
     <h2>Búsqueda de préstamos</h2>
     <form>
       <div class="mb-3">
-        <label for="idDispositivo" class="form-label">ID del dispositivo</label>
+        <label for="idDispositivo" class="form-label">Codigo del dispositivo</label>
         <input type="text" class="form-control" id="idDispositivo" placeholder="Ingrese el ID del dispositivo">
       </div>
       <div class="mb-3">
@@ -69,63 +94,75 @@
       </div>
     </form>
 
-    <!-- Tabla de Datos de Préstamos -->
     <?php
-    // Conexión a la base de datos
-    $conexion = new mysqli("localhost:3307", "root", "", "gestioninventario");
+            
 
-    // Verificar conexión
-    if ($conexion->connect_error) {
-      die("Error de conexión: " . $conexion->connect_error);
-    }
+            // Obtener el idUsuario desde la sesión
+            $idUsuario = $_SESSION['usuario_id'];
 
-    // Consulta SQL para obtener los datos de la tabla registroprestamo
-    $sql = "SELECT idDispositivo, numC, fechaSolicitud, fechaEntrega, aula FROM registroprestamo";
-    $resultado = $conexion->query($sql);
-    ?>
+            // Conexión a la base de datos
+            $conexion = new mysqli("localhost:3307", "root", "", "gestioninventario");
 
-    <!-- Tabla de Datos -->
-    <h3>Préstamos actuales</h3>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th class="text-center">ID dispositivo</th>
-          <th class="text-center">N° Control Alumno</th>
-          <th class="text-center">Fecha de Solicitud</th>
-          <th class="text-center">Fecha Limite</th>
-          <th class="text-center">Aula</th>
-          <th class="text-center">Editar Préstamo</th>
-          <th class="text-center">Eliminar Préstamo</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php
-        // Verificar si hay resultados
-        if ($resultado->num_rows > 0) {
-          // Recorrer y mostrar los datos de cada fila
-          while ($fila = $resultado->fetch_assoc()) {
-            echo "<tr>";
-            echo "<td class='text-center'>" . $fila["idDispositivo"] . "</td>";
-            echo "<td class='text-center'>" . $fila["numC"] . "</td>";
-            echo "<td class='text-center'>" . $fila["fechaSolicitud"] . "</td>";
-            echo "<td class='text-center'>" . $fila["fechaEntrega"] . "</td>";
-            echo "<td class='text-center'>" . $fila["aula"] . "</td>";
-            echo "<td class='text-center'>" . "<button class='btn btn-warning btn-sm' onclick=\"mostrarEditarModal('" . $fila["idDispositivo"] . "', '" . $fila["numC"] . "', '" . $fila["fechaSolicitud"] . "', '" . $fila["fechaEntrega"] . "', '" . $fila["aula"] . "')\">Editar</button> " . "</td>";
-            echo "<td class='text-center'>" . "<button class='btn btn-danger btn-sm' onclick=\"eliminarPrestamo('" . $fila["idDispositivo"] . "')\">Eliminar</button>" . "</td>";
-            echo "</tr>";
-          }
-        } else {
-          // Mensaje si no hay datos
-          echo "<tr><td colspan='6'>No hay préstamos registrados actualmente</td></tr>";
-        }
-        ?>
-      </tbody>
-    </table>
+            // Verificar conexión
+            if ($conexion->connect_error) {
+                die("Error de conexión: " . $conexion->connect_error);
+            }
 
-    <?php
-    // Cerrar la conexión a la base de datos
-    $conexion->close();
-    ?>
+            // Consulta SQL para obtener los datos de los préstamos realizados por el usuario
+            $sql = "SELECT idDispositivo, numC, fechaSolicitud, fechaEntrega, aula 
+                    FROM registroprestamo 
+                    WHERE idUsuario = ?"; // Filtrar por el idUsuario
+
+            $stmt = $conexion->prepare($sql);
+            $stmt->bind_param("i", $idUsuario); // Usamos "i" porque idUsuario es un entero
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+            ?>
+
+            <!-- Tabla de Datos -->
+            <h3>Préstamos actuales</h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th class="text-center">Código Dispositivo</th>
+                        <th class="text-center">N° Control Alumno</th>
+                        <th class="text-center">Fecha de Solicitud</th>
+                        <th class="text-center">Fecha Límite</th>
+                        <th class="text-center">Aula</th>
+                        <th class="text-center">Editar Préstamo</th>
+                        <th class="text-center">Eliminar Préstamo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    // Verificar si hay resultados
+                    if ($resultado->num_rows > 0) {
+                        // Recorrer y mostrar los datos de cada fila
+                        while ($fila = $resultado->fetch_assoc()) {
+                            echo "<tr>";
+                            echo "<td class='text-center'>" . $fila["idDispositivo"] . "</td>";
+                            echo "<td class='text-center'>" . $fila["numC"] . "</td>";
+                            echo "<td class='text-center'>" . $fila["fechaSolicitud"] . "</td>";
+                            echo "<td class='text-center'>" . $fila["fechaEntrega"] . "</td>";
+                            echo "<td class='text-center'>" . $fila["aula"] . "</td>";
+                            echo "<td class='text-center'>" . "<button class='btn btn-warning btn-sm' onclick=\"mostrarEditarModal('" . $fila["idDispositivo"] . "', '" . $fila["numC"] . "', '" . $fila["fechaSolicitud"] . "', '" . $fila["fechaEntrega"] . "', '" . $fila["aula"] . "')\">Editar</button> " . "</td>";
+                            echo "<td class='text-center'>" . "<button class='btn btn-danger btn-sm' onclick=\"eliminarPrestamo('" . $fila["idDispositivo"] . "')\">Eliminar</button>" . "</td>";
+                            echo "</tr>";
+                        }
+                    } else {
+                        // Mensaje si no hay datos
+                        echo "<tr><td colspan='7'>No hay préstamos registrados actualmente</td></tr>";
+                    }
+                    ?>
+                </tbody>
+            </table>
+
+            <?php
+            // Cerrar la conexión a la base de datos
+            $conexion->close();
+            ?>
+
+
 
     <hr>
     <!-- Pie de Página -->

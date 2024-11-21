@@ -6,7 +6,7 @@ include 'verificar_sesion.php';
 <html lang="es">
 
 <head>
-    <title>Alumnos - Gestion de Inventario</title>
+    <title>Gestion de Inventario</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -26,21 +26,25 @@ include 'verificar_sesion.php';
     <!-- Barra de Navegación Vertical -->
     <div class="sidebar position-fixed">
         <nav class="nav flex-column">
-            <a class="nav-link active" href="inicio_usuario.php">
-                <img src="img/inicio-foto.png" alt="Icono Inicio">
+            <a class="nav-link active" href="inicio_admin.php" style="color: #0066cc;">
+                <img src="img/inicio-azul.png" alt="Icono Inicio">
                 Inicio
             </a>
-            <a class="nav-link" href="Inventario.php">
+            <a class="nav-link" href="Inventario_admin.php">
                 <img src="img/inventario-foto.png" alt="Icono Inventario">
                 Inventario
             </a>
-            <a class="nav-link" href="Alumnos.php" style="color: #0066cc;">
-                <img src="img/alumnos-azul.png" alt="Icono Alumnos">
+            <a class="nav-link" href="Alumnos_admin.php">
+                <img src="img/alumnos-foto.png" alt="Icono Alumnos">
                 Alumnos
             </a>
-            <a class="nav-link" href="Prestamos.php">
+            <a class="nav-link" href="Prestamos_admin.php">
                 <img src="img/prestamos-foto.png" alt="Icono Préstamos">
                 Préstamos
+            </a>
+            <a class="nav-link" href="Estadisticas.php">
+                <img src="img/estadisticas_foto.png" alt="Icono estadisticas">
+                Estadísticas
             </a>
             <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">
             <img src="img/salir-foto.png" alt="Icono Cerrar Sesión">
@@ -53,58 +57,82 @@ include 'verificar_sesion.php';
     <div class="main-content">
         <!-- Mensajes con botón de cierre -->
         <div class="alert alert-success alert-dismissible fade show" role="alert">
-            Bienvenido a la gestión de Alumnos.
+            Bienvenido al Sistema de Control de Inventario del ITSN. Aquí podrás gestionar los préstamos de equipos.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+            Mantén la información actualizada para un mejor control.
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
 
-        <!-- Formulario de Registro de Alumnos -->
-        <h2>Registro de Alumnos</h2>
-        <form id="alumnoForm">
+        <!-- Formulario de Registro de Préstamo -->
+        <h2>Registro de préstamo</h2>
+        <form id="prestamoForm">
             <div class="mb-3">
-                <label for="numControl" class="form-label">N° Control</label>
-                <input type="text" class="form-control" id="numControl" name="numControl"
-                    placeholder="Ingrese el número de control" required>
+                <label for="idDispositivo" class="form-label">Código del dispositivo</label>
+                <input type="text" class="form-control" id="idDispositivo" name="idDispositivo"
+                    placeholder="Ingrese el codigo del dispositivo a prestar" required>
             </div>
             <div class="mb-3">
-                <label for="nombres" class="form-label">Nombres</label>
-                <input type="text" class="form-control" id="nombres" name="nombres" placeholder="Ingrese los nombres"
+                <label for="numC" class="form-label">N° Control Alumno</label>
+                <input type="text" class="form-control" id="numC" name="numC" placeholder="Ingrese el número de control"
                     required>
             </div>
             <div class="mb-3">
-                <label for="apPat" class="form-label">Apellido Paterno</label>
-                <input type="text" class="form-control" id="apPat" name="apPat"
-                    placeholder="Ingrese el apellido paterno" required>
+                <label for="fechaSolicitud" class="form-label">Fecha de Solicitud</label>
+                <input type="date" class="form-control" id="fechaSolicitud" name="fechaSolicitud" required>
             </div>
             <div class="mb-3">
-                <label for="apMat" class="form-label">Apellido Materno</label>
-                <input type="text" class="form-control" id="apMat" name="apMat"
-                    placeholder="Ingrese el apellido materno">
+                <label for="fechaEntrega" class="form-label">Fecha Limite</label>
+                <input type="date" class="form-control" id="fechaEntrega" name="fechaEntrega" required>
             </div>
             <div class="mb-3">
-                <label for="telefono" class="form-label">Teléfono</label>
-                <input type="text" class="form-control" id="telefono" name="telefono" placeholder="Ingrese el teléfono"
-                    required>
-            </div>
-            <div class="mb-3">
-                <label for="domicilio" class="form-label">Domicilio</label>
-                <input type="text" class="form-control" id="domicilio" name="domicilio"
-                    placeholder="Ingrese la dirección" required>
-            </div>
-                        <div class="mb-3">
-                <label for="carrera" class="form-label">Carrera</label>
-                <select class="form-select" id="carrera" name="carrera" required>
-                    <option value="">Seleccione una carrera</option>
-                    <option value="IIA">IIA</option>
-                    <option value="ITIC">ITIC</option>
-                    <option value="IGE">IGE</option>
-                </select>
+                <label for="aula" class="form-label">Aula</label>
+                <input type="text" class="form-control" id="aula" name="aula" placeholder="Ingrese el aula" required>
             </div>
             <div class="btn-group">
-                <button type="button" class="btn btn-primary" onclick="enviarFormulario()">Agregar alumno(a)</button>
+                <button type="button" class="btn btn-primary" onclick="enviarFormulario()">Solicitar</button>
             </div>
         </form>
 
-        <!-- Modal para mostrar mensaje de se guardo exitosamente el alumno -->
+        <!-- Modal para editar un préstamo -->
+        <div class="modal fade" id="editarModal" tabindex="-1" aria-labelledby="editarModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editarModalLabel">Editar Préstamo</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="editarPrestamoForm">
+                            <input type="hidden" id="editIdDispositivo" name="idDispositivo">
+                            <div class="mb-3">
+                                <label for="editNumC" class="form-label">N° Control Alumno</label>
+                                <input type="text" class="form-control" id="editNumC" name="numC" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editFechaSolicitud" class="form-label">Fecha de Solicitud</label>
+                                <input type="date" class="form-control" id="editFechaSolicitud" name="fechaSolicitud"
+                                    required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editFechaEntrega" class="form-label">Fecha Limite</label>
+                                <input type="date" class="form-control" id="editFechaEntrega" name="fechaEntrega"
+                                    required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editAula" class="form-label">Aula</label>
+                                <input type="text" class="form-control" id="editAula" name="aula" required>
+                            </div>
+                            <button type="button" class="btn btn-success" onclick="actualizarPrestamo()">Guardar
+                                Cambios</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal para mostrar mensaje de se guardo exitosamente el prestamo -->
         <div class="modal fade" id="resultadoModal" tabindex="-1" aria-labelledby="resultadoModalLabelGuardar"
             aria-hidden="true">
             <div class="modal-dialog">
@@ -114,7 +142,7 @@ include 'verificar_sesion.php';
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                     </div>
                     <div class="modal-body" id="modalMensajeGuardar">
-                        Se ha guardado el alumno(a) correctamente!!
+                        Se ha guardado el préstamo correctamente!!
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -123,68 +151,7 @@ include 'verificar_sesion.php';
             </div>
         </div>
 
-        <!-- Modal para editar un alumno -->
-        <div class="modal fade" id="editarModal" tabindex="-1" aria-labelledby="editarModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="editarModalLabel">Editar Alumno</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="editarAlumnoForm">
-                            <!-- Campo oculto para numControl -->
-                            <input type="hidden" id="editNumControl" name="numControl">
-
-                            <!-- Campo para nombres -->
-                            <div class="mb-3">
-                                <label for="editNombres" class="form-label">Nombres</label>
-                                <input type="text" class="form-control" id="editNombres" name="nombres" required>
-                            </div>
-
-                            <!-- Campo para apellido paterno -->
-                            <div class="mb-3">
-                                <label for="editApPat" class="form-label">Apellido Paterno</label>
-                                <input type="text" class="form-control" id="editApPat" name="apPat" required>
-                            </div>
-
-                            <!-- Campo para apellido materno -->
-                            <div class="mb-3">
-                                <label for="editApMat" class="form-label">Apellido Materno</label>
-                                <input type="text" class="form-control" id="editApMat" name="apMat" required>
-                            </div>
-
-                            <!-- Campo para teléfono -->
-                            <div class="mb-3">
-                                <label for="editTelefono" class="form-label">Teléfono</label>
-                                <input type="text" class="form-control" id="editTelefono" name="telefono" required>
-                            </div>
-
-                            <!-- Campo para domicilio -->
-                            <div class="mb-3">
-                                <label for="editDomicilio" class="form-label">Domicilio</label>
-                                <input type="text" class="form-control" id="editDomicilio" name="domicilio" required>
-                            </div>
-                            <div class="mb-3">
-                                        <label for="editCarrera" class="form-label">Carrera</label>
-                                        <select class="form-select" id="editCarrera" name="carrera" required>
-                                            <option value="IIA">IIA</option>
-                                            <option value="ITIC">ITIC</option>
-                                            <option value="IGE">IGE</option>
-                                        </select>
-                                    </div>
-
-                            <!-- Botón para guardar -->
-                            <button type="button" class="btn btn-success" onclick="actualizarAlumno()">Guardar
-                                Cambios</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <!-- Modal para mostrar mensaje de se edito exitosamente el alumno -->
+        <!-- Modal para mostrar mensaje de se edito exitosamente el prestamo -->
         <div class="modal fade" id="resultadoModalEditar" tabindex="-1" aria-labelledby="resultadoModalLabelEditar"
             aria-hidden="true">
             <div class="modal-dialog">
@@ -194,7 +161,7 @@ include 'verificar_sesion.php';
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                     </div>
                     <div class="modal-body" id="modalMensajeEditar">
-                        Se ha actualizado el alumno(a) correctamente!!
+                        Se ha actualizado el préstamo correctamente!!
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -213,11 +180,11 @@ include 'verificar_sesion.php';
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                     </div>
                     <div class="modal-body">
-                        ¿Estás seguro de que deseas eliminar este alumno(a)?
+                        ¿Estás seguro de que deseas eliminar este préstamo?
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-danger" id="confirmarEliminarBtn">Si, Eliminar</button>
+                        <button type="button" class="btn nbt-danger" id="confirmarEliminarBtn">Si, Eliminar</button>
                     </div>
                 </div>
             </div>
@@ -233,7 +200,7 @@ include 'verificar_sesion.php';
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                     </div>
                     <div class="modal-body" id="modalMensajeBorrar">
-                        Se ha borrado el alumno(a) correctamente!!
+                        Se ha borrado el préstamo correctamente!!
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -259,25 +226,25 @@ include 'verificar_sesion.php';
         </div>
     </div>
 </div>
+
+
         <script>
             // Función para enviar el formulario con AJAX
             function enviarFormulario() {
                 // Verifica que los campos obligatorios estén llenos
-                const numControl = document.getElementById('numControl').value.trim();
-                const nombres = document.getElementById('nombres').value.trim();
-                const apPat = document.getElementById('apPat').value.trim();
-                const domicilio = document.getElementById('domicilio').value.trim();
-                const carrera = document.getElementById('carrera').value;
+                const idDispositivo = document.getElementById('idDispositivo').value.trim();
+                const numC = document.getElementById('numC').value.trim();
+                const fechaSolicitud = document.getElementById('fechaSolicitud').value.trim();
 
-                if (!numControl || !nombres || !apPat || !domicilio || carrera === "") {
-                    alert("Por favor, complete los campos obligatorios: N° Control Alumno , Nombres, Apellido Paterno y domicilio.");
+                if (!idDispositivo || !numC || !fechaSolicitud) {
+                    alert("Por favor, complete los campos obligatorios: Código del dispositivo, N° Control Alumno y Fecha de Solicitud.");
                     return;
                 }
 
                 // Proceder con el envío si los campos están completos
-                const formData = new FormData(document.getElementById('alumnoForm'));
+                const formData = new FormData(document.getElementById('prestamoForm'));
 
-                fetch('insertar_alumno.php', {
+                fetch('insertar_prestamo.php', {
                     method: 'POST',
                     body: formData
                 })
@@ -290,7 +257,7 @@ include 'verificar_sesion.php';
                         new bootstrap.Modal(document.getElementById('resultadoModal')).show();
 
                         // Limpiar el formulario después del envío
-                        document.getElementById('alumnoForm').reset();
+                        document.getElementById('prestamoForm').reset();
                         // Actualizar la tabla de registros después de la inserción
                         actualizarTabla();
                     })
@@ -301,7 +268,7 @@ include 'verificar_sesion.php';
 
             // Función para actualizar la tabla con los datos más recientes
             function actualizarTabla() {
-                fetch('obtener_alumnos.php')
+                fetch('obtener_prestamos.php')
                     .then(response => response.text())
                     .then(data => {
                         // Reemplazar el contenido de la tabla con los nuevos datos
@@ -313,45 +280,35 @@ include 'verificar_sesion.php';
             }
 
             //Mostrar datos de la tabla para edición
-<<<<<<< HEAD
-            function mostrarEditarModal(numControl, nombres, apPat, apMat, telefono, domicilio, carrera) {
-=======
-            function mostrarEditarModal(numControl, nombres, apPat, apMat, telefono, domicilio) {
->>>>>>> 32fd89ab8e42ea0f4261536ee9245ace05be2dd9
-                document.getElementById('editNumControl').value = numControl; // Llena el campo oculto
-                document.getElementById('editNombres').value = nombres;
-                document.getElementById('editApPat').value = apPat;
-                document.getElementById('editApMat').value = apMat;
-                document.getElementById('editTelefono').value = telefono;
-                document.getElementById('editDomicilio').value = domicilio;
-<<<<<<< HEAD
-                document.getElementById('editCarrera').value = carrera;
-                    new bootstrap.Modal(document.getElementById('editarModal')).show();
-                }
-=======
-                new bootstrap.Modal(document.getElementById('editarModal')).show(); // Muestra el modal
+            function mostrarEditarModal(idDispositivo, numC, fechaSolicitud, fechaEntrega, aula) {
+                document.getElementById('editIdDispositivo').value = idDispositivo;
+                document.getElementById('editNumC').value = numC;
+                document.getElementById('editFechaSolicitud').value = fechaSolicitud;
+                document.getElementById('editFechaEntrega').value = fechaEntrega;
+                document.getElementById('editAula').value = aula;
+                new bootstrap.Modal(document.getElementById('editarModal')).show();
             }
 
->>>>>>> 32fd89ab8e42ea0f4261536ee9245ace05be2dd9
             // Función para mostrar el modal de confirmación de eliminación
-            function eliminarAlumno(numControl) {
-                // Asignar el N.C al botón de confirmar eliminación
+            function eliminarPrestamo(idDispositivo) {
+                // Asignar el idDispositivo al botón de confirmar eliminación
                 document.getElementById('confirmarEliminarBtn').onclick = function (event) {
                     event.preventDefault(); // Prevenir la acción predeterminada del botón (evitar recarga de la página)
 
                     // Llamar a la función para eliminar el préstamo
-                    eliminarAlumnoConfirmado(numControl);
+                    eliminarPrestamoConfirmado(idDispositivo);
                 };
+
                 // Mostrar el modal de confirmación
                 new bootstrap.Modal(document.getElementById('confirmarEliminacionModal')).show();
             }
 
             // Función para eliminar el registro de la base de datos
-            function eliminarAlumnoConfirmado(numControl) {
-                // Enviar la solicitud AJAX para eliminar el alumno
-                fetch('eliminar_alumno.php', {
+            function eliminarPrestamoConfirmado(idDispositivo) {
+                // Enviar la solicitud AJAX para eliminar el préstamo
+                fetch('eliminar_prestamo.php', {
                     method: 'POST',
-                    body: JSON.stringify({ numControl: numControl }), // Enviar los datos como JSON
+                    body: JSON.stringify({ idDispositivo: idDispositivo }), // Enviar los datos como JSON
                     headers: {
                         'Content-Type': 'application/json', // Especificar el tipo de contenido
                     },
@@ -375,16 +332,16 @@ include 'verificar_sesion.php';
                         modal.hide();
                     })
                     .catch(error => {
-                        console.error('Error al eliminar el alumno:', error);
+                        console.error('Error al eliminar el préstamo:', error);
                     });
             }
 
             // Función para actualizar el préstamo
-            function actualizarAlumno() {
-                const formData = new FormData(document.getElementById('editarAlumnoForm'));
+            function actualizarPrestamo() {
+                const formData = new FormData(document.getElementById('editarPrestamoForm'));
 
                 // Enviar los datos al servidor
-                fetch('editar_alumno.php', {
+                fetch('editar_prestamo.php', {
                     method: 'POST',
                     body: formData
                 })
@@ -407,10 +364,6 @@ include 'verificar_sesion.php';
                     })
                     .catch(error => console.error('Error:', error));
             }
-            document.getElementById('editarAlumnoForm').addEventListener('submit', function (event) {
-                event.preventDefault(); // Evita que el formulario recargue la página
-                actualizarAlumno();
-            });
         </script>
 
         <?php
@@ -422,25 +375,23 @@ include 'verificar_sesion.php';
             die("Error de conexión: " . $conexion->connect_error);
         }
 
-        // Consulta SQL para obtener los datos de la tabla alumnos
-        $sql = "SELECT numControl, nombres, apPat, apMat, telefono, domicilio, carrera FROM alumnos";
+        // Consulta SQL para obtener los datos de la tabla registroprestamo
+        $sql = "SELECT idDispositivo, numC, fechaSolicitud, fechaEntrega, aula FROM registroprestamo";
         $resultado = $conexion->query($sql);
         ?>
 
         <!-- Tabla de Datos -->
-        <h3>Alumnos</h3>
+        <h3>Préstamos actuales</h3>
         <table class="table table-striped">
             <thead>
                 <tr>
+                    <th class="text-center">Codigo dispositivo</th>
                     <th class="text-center">N° Control Alumno</th>
-                    <th class="text-center">Nombres</th>
-                    <th class="text-center">Apellido Paterno</th>
-                    <th class="text-center">Apellido Materno</th>
-                    <th class="text-center">Telefono</th>
-                    <th class="text-center">Domicilio</th>
-                    <th class="text-center">Carrera</th>
-                    <th class="text-center">Editar Alumno</th>
-                    <th class="text-center">Eliminar Alumno</th>
+                    <th class="text-center">Fecha de Solicitud</th>
+                    <th class="text-center">Fecha Limite</th>
+                    <th class="text-center">Aula</th>
+                    <th class="text-center">Editar Préstamo</th>
+                    <th class="text-center">Eliminar Préstamo</th>
                 </tr>
             </thead>
             <tbody>
@@ -450,20 +401,18 @@ include 'verificar_sesion.php';
                     // Recorrer y mostrar los datos de cada fila
                     while ($fila = $resultado->fetch_assoc()) {
                         echo "<tr>";
-                        echo "<td class='text-center'>" . $fila["numControl"] . "</td>";
-                        echo "<td class='text-center'>" . $fila["nombres"] . "</td>";
-                        echo "<td class='text-center'>" . $fila["apPat"] . "</td>";
-                        echo "<td class='text-center'>" . $fila["apMat"] . "</td>";
-                        echo "<td class='text-center'>" . $fila["telefono"] . "</td>";
-                        echo "<td class='text-center'>" . $fila["domicilio"] . "</td>";
-                        echo "<td class='text-center'>" . $fila["carrera"] . "</td>";
-                        echo "<td class='text-center'>" . "<button class='btn btn-warning btn-sm' onclick=\"mostrarEditarModal('" . $fila["numControl"] . "', '" . $fila["nombres"] . "', '" . $fila["apPat"] . "', '" . $fila["apMat"] . "', '" . $fila["telefono"] . "', '" . $fila["domicilio"] . "', '" . $fila["carrera"] . "')\">Editar</button> " . "</td>";
-                        echo "<td class='text-center'>" . "<button class='btn btn-danger btn-sm' onclick=\"eliminarAlumno('" . $fila["numControl"] . "')\">Eliminar</button>" . "</td>";
+                        echo "<td class='text-center'>" . $fila["idDispositivo"] . "</td>";
+                        echo "<td class='text-center'>" . $fila["numC"] . "</td>";
+                        echo "<td class='text-center'>" . $fila["fechaSolicitud"] . "</td>";
+                        echo "<td class='text-center'>" . $fila["fechaEntrega"] . "</td>";
+                        echo "<td class='text-center'>" . $fila["aula"] . "</td>";
+                        echo "<td class='text-center'>" . "<button class='btn btn-warning btn-sm' onclick=\"mostrarEditarModal('" . $fila["idDispositivo"] . "', '" . $fila["numC"] . "', '" . $fila["fechaSolicitud"] . "', '" . $fila["fechaEntrega"] . "', '" . $fila["aula"] . "')\">Editar</button> " . "</td>";
+                        echo "<td class='text-center'>" . "<button class='btn btn-danger btn-sm' onclick=\"eliminarPrestamo('" . $fila["idDispositivo"] . "')\">Eliminar</button>" . "</td>";
                         echo "</tr>";
                     }
                 } else {
                     // Mensaje si no hay datos
-                    echo "<tr><td colspan='8'>No hay alumnos registrados actualmente</td></tr>";
+                    echo "<tr><td colspan='7'>No hay préstamos registrados actualmente</td></tr>";
                 }
                 ?>
             </tbody>
@@ -474,7 +423,7 @@ include 'verificar_sesion.php';
         $conexion->close();
         ?>
 
-
+        <hr>
         <!-- Pie de Página -->
         <div class="footer">
             <p>&copy; 2024 - Instituto Tecnologico del Sur de Nayarit - Gestion de Inventario</p>

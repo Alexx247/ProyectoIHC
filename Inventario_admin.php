@@ -22,31 +22,35 @@ include 'verificar_sesion.php';
     <img src="img/TecSurNay.png" alt="Logo ITSN" style="position: absolute; top: 10px; right: 10px; width: 150px;">
   </div>
 
-  <!-- Barra de Navegación Vertical -->
-  <div class="sidebar position-fixed">
-    <nav class="nav flex-column">
-      <a class="nav-link active" href="inicio_usuario.php">
-        <img src="img/inicio-foto.png" alt="Icono Inicio">
-        Inicio
-      </a>
-      <a class="nav-link" href="Inventario.php" style="color: #0066cc;">
-        <img src="img/inventario-azul.png" alt="Icono Inventario">
-        Inventario
-      </a>
-      <a class="nav-link" href="Alumnos.php">
-        <img src="img/alumnos-foto.png" alt="Icono Alumnos">
-        Alumnos
-      </a>
-      <a class="nav-link" href="Prestamos.php">
-        <img src="img/prestamos-foto.png" alt="Icono Préstamos">
-        Préstamos
-      </a>
-      <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">
+   <!-- Barra de Navegación Vertical -->
+   <div class="sidebar position-fixed">
+        <nav class="nav flex-column">
+            <a class="nav-link active" href="inicio_admin.php">
+                <img src="img/inicio-foto.png" alt="Icono Inicio">
+                Inicio
+            </a>
+            <a class="nav-link" href="Inventario_admin.php" style="color: #0066cc;">
+                <img src="img/inventario-azul.png" alt="Icono Inventario">
+                Inventario
+            </a>
+            <a class="nav-link" href="Alumnos_admin.php" >
+                <img src="img/alumnos-foto.png" alt="Icono Alumnos">
+                Alumnos
+            </a>
+            <a class="nav-link" href="Prestamos_admin.php">
+                <img src="img/prestamos-foto.png" alt="Icono Préstamos">
+                Préstamos
+            </a>
+            <a class="nav-link" href="Estadisticas.php">
+                <img src="img/estadisticas_foto.png" alt="Icono estadisticas">
+                Estadísticas
+            </a>
+            <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">
             <img src="img/salir-foto.png" alt="Icono Cerrar Sesión">
             Cerrar Sesión
         </a>
-    </nav>
-  </div>
+        </nav>
+    </div>
 
 
   <!-- Contenido Principal -->
@@ -250,7 +254,7 @@ include 'verificar_sesion.php';
 
             // Función para actualizar la tabla con los datos más recientes
             function actualizarTabla() {
-                fetch('obtener_dispositivos.php')
+                fetch('obtener_dispositivos_admin.php')
                 .then(response => response.text())
                 .then(data => {
                     document.querySelector("table tbody").innerHTML = data;
@@ -351,72 +355,61 @@ include 'verificar_sesion.php';
             }
         </script>
         <?php
-          // Conexión a la base de datos
-          $conexion = new mysqli("localhost:3307", "root", "", "gestioninventario");
+        // Conexión a la base de datos
+        $conexion = new mysqli("localhost:3307", "root", "", "gestioninventario");
 
-          // Verificar conexión
-          if ($conexion->connect_error) {
-              die("Error de conexión: " . $conexion->connect_error);
-          }
+        // Verificar conexión
+        if ($conexion->connect_error) {
+            die("Error de conexión: " . $conexion->connect_error);
+        }
 
-          // Inicia sesión para obtener el idUsuario
-          if (!isset($_SESSION['usuario_id'])) {
-              die("Error: No se ha identificado al usuario.");
-          }
+        // Consulta SQL para obtener los datos de la tabla alumnos
+        $sql = "SELECT idDispositivo, nombre, marca, estado, descripcion FROM inventario";
+        $resultado = $conexion->query($sql);
+        ?>
 
-          $idUsuario = $_SESSION['usuario_id'];
+        <!-- Tabla de Datos -->
+        <h3>Dispositivos registrados</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th class="text-center">Codigo</th>
+                    <th class="text-center">Nombre</th>
+                    <th class="text-center">Marca</th>
+                    <th class="text-center">Estado</th>
+                    <th class="text-center">Descripcion</th>
+                    <th class="text-center">Editar</th>
+                    <th class="text-center">Eliminar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                // Verificar si hay resultados
+                if ($resultado->num_rows > 0) {
+                    // Recorrer y mostrar los datos de cada fila
+                    while ($fila = $resultado->fetch_assoc()) {
+                        echo "<tr>";
+                        echo "<td class='text-center'>" . $fila["idDispositivo"] . "</td>";
+                        echo "<td class='text-center'>" . $fila["nombre"] . "</td>";
+                        echo "<td class='text-center'>" . $fila["marca"] . "</td>";
+                        echo "<td class='text-center'>" . $fila["estado"] . "</td>";
+                        echo "<td class='text-center'>" . $fila["descripcion"] . "</td>";
+                        echo "<td class='text-center'>" . "<button class='btn btn-warning btn-sm' onclick=\"mostrarEditarModal('" . $fila["idDispositivo"] . "', '" . $fila["nombre"] . "', '" . $fila["marca"] . "', '" . $fila["estado"] . "', '" . $fila["descripcion"] . "')\">Editar</button> " . "</td>";
+                        echo "<td class='text-center'>" . "<button class='btn btn-danger btn-sm' onclick=\"eliminarDispositivo('" . $fila["idDispositivo"] . "')\">Eliminar</button>" . "</td>";
+                        echo "</tr>";
+                    }
+                } else {
+                    // Mensaje si no hay datos
+                    echo "<tr><td colspan='8'>No hay alumnos registrados actualmente</td></tr>";
+                }
+                ?>
+            </tbody>
+        </table>
 
-          // Consulta SQL para obtener los dispositivos del usuario actual
-          $sql = "SELECT idDispositivo, nombre, marca, estado, descripcion 
-                  FROM inventario 
-                  WHERE idUsuario = ?";
-          $stmt = $conexion->prepare($sql);
-          $stmt->bind_param("i", $idUsuario);
-          $stmt->execute();
-          $resultado = $stmt->get_result();
-          ?>
-
-          <!-- Tabla de Datos -->
-          <h3>Dispositivos registrados</h3>
-          <table class="table table-striped">
-              <thead>
-                  <tr>
-                      <th class="text-center">Código</th>
-                      <th class="text-center">Nombre</th>
-                      <th class="text-center">Marca</th>
-                      <th class="text-center">Estado</th>
-                      <th class="text-center">Descripción</th>
-                      <th class="text-center">Editar</th>
-                      <th class="text-center">Eliminar</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  <?php
-                  if ($resultado->num_rows > 0) {
-                      while ($fila = $resultado->fetch_assoc()) {
-                          echo "<tr>";
-                          echo "<td class='text-center'>" . $fila["idDispositivo"] . "</td>";
-                          echo "<td class='text-center'>" . $fila["nombre"] . "</td>";
-                          echo "<td class='text-center'>" . $fila["marca"] . "</td>";
-                          echo "<td class='text-center'>" . $fila["estado"] . "</td>";
-                          echo "<td class='text-center'>" . $fila["descripcion"] . "</td>";
-                          echo "<td class='text-center'>" . "<button class='btn btn-warning btn-sm' onclick=\"mostrarEditarModal('" . $fila["idDispositivo"] . "', '" . $fila["nombre"] . "', '" . $fila["marca"] . "', '" . $fila["estado"] . "', '" . $fila["descripcion"] . "')\">Editar</button> " . "</td>";
-                          echo "<td class='text-center'>" . "<button class='btn btn-danger btn-sm' onclick=\"eliminarDispositivo('" . $fila["idDispositivo"] . "')\">Eliminar</button>" . "</td>";
-                          echo "</tr>";
-                      }
-                  } else {
-                      echo "<tr><td colspan='7'>No hay dispositivos registrados actualmente</td></tr>";
-                  }
-                  ?>
-              </tbody>
-          </table>
-
-          <?php
-          // Cerrar recursos
-          $stmt->close();
-          $conexion->close();
-          ?>
-
+        <?php
+        // Cerrar la conexión a la base de datos
+        $conexion->close();
+        ?>
 
     <div class="footer">
         <p>&copy; 2024 - Instituto Tecnológico del Sur de Nayarit - Gestión de Inventario</p>
