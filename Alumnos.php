@@ -313,26 +313,16 @@ include 'verificar_sesion.php';
             }
 
             //Mostrar datos de la tabla para edición
-<<<<<<< HEAD
             function mostrarEditarModal(numControl, nombres, apPat, apMat, telefono, domicilio, carrera) {
-=======
-            function mostrarEditarModal(numControl, nombres, apPat, apMat, telefono, domicilio) {
->>>>>>> 32fd89ab8e42ea0f4261536ee9245ace05be2dd9
                 document.getElementById('editNumControl').value = numControl; // Llena el campo oculto
                 document.getElementById('editNombres').value = nombres;
                 document.getElementById('editApPat').value = apPat;
                 document.getElementById('editApMat').value = apMat;
                 document.getElementById('editTelefono').value = telefono;
                 document.getElementById('editDomicilio').value = domicilio;
-<<<<<<< HEAD
                 document.getElementById('editCarrera').value = carrera;
                     new bootstrap.Modal(document.getElementById('editarModal')).show();
                 }
-=======
-                new bootstrap.Modal(document.getElementById('editarModal')).show(); // Muestra el modal
-            }
-
->>>>>>> 32fd89ab8e42ea0f4261536ee9245ace05be2dd9
             // Función para mostrar el modal de confirmación de eliminación
             function eliminarAlumno(numControl) {
                 // Asignar el N.C al botón de confirmar eliminación
