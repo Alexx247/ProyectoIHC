@@ -1,11 +1,5 @@
 <?php
-// Conexión a la base de datos
-$conexion = new mysqli("localhost:3307", "root", "", "gestioninventario");
-
-// Verificar conexión
-if ($conexion->connect_error) {
-    die("Error de conexión: " . $conexion->connect_error);
-}
+include 'Conexion.php';
 
 // Obtener el ID del dispositivo a eliminar
 $data = json_decode(file_get_contents('php://input'), true); // Recibir los datos en formato JSON

@@ -1,13 +1,7 @@
 <?php
 
 session_start();
-// Conexión a la base de datos
-$conexion = new mysqli("localhost:3307", "root", "", "gestioninventario");
-
-// Verificar conexión
-if ($conexion->connect_error) {
-    die("Conexión fallida: " . $conexion->connect_error);
-}
+include 'Conexion.php';
 
 // Obtener los datos del formulario
 $idDispositivo = $_POST['idDispositivo'];

@@ -10,13 +10,7 @@ if (!isset($_SESSION['usuario_id'])) {
 // Obtener el idUsuario desde la sesión
 $idUsuario = $_SESSION['usuario_id'];
 
-// Conexión a la base de datos
-$conexion = new mysqli("localhost:3307", "root", "", "gestioninventario");
-
-// Verificar conexión
-if ($conexion->connect_error) {
-    die("Error de conexión: " . $conexion->connect_error);
-}
+include 'Conexion.php';
 
 // Obtener los datos enviados desde el formulario
 $idDispositivo = $_POST['idDispositivo'];

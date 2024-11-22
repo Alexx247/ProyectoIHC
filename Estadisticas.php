@@ -1,13 +1,7 @@
 <?php
 include 'verificar_sesion.php';
 
-// Conexión a la base de datos
-$conexion = new mysqli("localhost:3307", "root", "", "gestioninventario");
-
-// Verificar conexión
-if ($conexion->connect_error) {
-    die("Error de conexión: " . $conexion->connect_error);
-}
+include 'Conexion.php';
 
 // Consulta SQL para obtener los préstamos y las carreras de los alumnos
 $sql = "

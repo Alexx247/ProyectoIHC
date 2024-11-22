@@ -1,13 +1,7 @@
 <?php
 include 'verificar_sesion.php';
 
-// Conexión a la base de datos
-$conexion = new mysqli("localhost:3307", "root", "", "gestioninventario");
-
-// Verificar conexión
-if ($conexion->connect_error) {
-    die("Conexión fallida: " . $conexion->connect_error);
-}
+include 'Conexion.php';
 // Obtener el ID del dispositivo a eliminar
 $data = json_decode(file_get_contents('php://input'), true); // Recibir los datos en formato JSON
 $idDispositivo = $data['idDispositivo']; // Obtener el N.C desde el JSON
