@@ -24,6 +24,26 @@ if ($resultado->num_rows > 0) {
         $prestamos[] = $fila["numPrestamos"];
     }
 }
+// Segunda consulta: alumnos por carrera
+$sqlAlumnos = "
+    SELECT carrera, COUNT(numControl) AS numAlumnos
+    FROM alumnos
+    GROUP BY carrera
+    ORDER BY numAlumnos DESC
+";
+$resultadoAlumnos = $conexion->query($sqlAlumnos);
+
+// Inicializar arrays para alumnos
+$carrerasAlumnos = [];
+$numAlumnos = [];
+
+// Llenar arrays de alumnos
+if ($resultadoAlumnos->num_rows > 0) {
+    while ($fila = $resultadoAlumnos->fetch_assoc()) {
+        $carrerasAlumnos[] = $fila["carrera"];
+        $numAlumnos[] = $fila["numAlumnos"];
+    }
+}
 
 // Cerrar la conexión
 $conexion->close();
@@ -41,6 +61,7 @@ $conexion->close();
   <link rel="stylesheet" href="styles.css"> <!-- Enlace a styles.css -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Chart.js -->
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script><!-- Para exportar la grafica -->
 
 </head>
@@ -110,78 +131,91 @@ $conexion->close();
     </div>
    
     <div class="container mt-5">
-  <div class="row justify-content-center">
-    <div class="col-md-6 text-center">
-      <h3>Estadísticas de préstamos por carrera</h3>
-      <canvas id="prestamosPorCarrera" width="500" height="500"></canvas>
-      <button id="exportarPDF" class="btn btn-primary mt-3">Exportar a PDF</button>
+        <!-- Gráfica 2D -->
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-start">
+                <h3>Estadísticas de préstamos por carrera</h3>
+                <div id="piechart_2d" style="width: 100%; height: 500px;"></div>
+                <div class="text-center"><button id="exportarPDF1" class="btn btn-primary mt-3">Exportar Gráfica</button></div>
+            </div>
+        </div>
+
+        <!-- Gráfica 3D -->
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-6 text-start">
+                <h3>Estadísticas de alumnos por carrera</h3>
+                <div id="piechart_3d" style="width: 100%; height: 500px;"></div>
+                <div class="d-flex justify-content-center mt-3">
+                <button id="exportarPDF2" class="btn btn-primary mt-3">Exportar Gráfica</button>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
 
-                <script>
-                var ctx = document.getElementById('prestamosPorCarrera').getContext('2d');
-                var prestamosPorCarreraChart = new Chart(ctx, {
-                    type: 'pie',
-                    data: {
-                    labels: <?php echo json_encode($carreras); ?>,
-                    datasets: [{
-                        label: 'Número de Préstamos',
-                        data: <?php echo json_encode($prestamos); ?>,
-                        backgroundColor: [
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)',
-                        'rgba(255, 99, 71, 0.2)',
-                        'rgba(128, 0, 128, 0.2)'
-                        ],
-                        borderColor: [
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)',
-                        'rgba(255, 99, 71, 1)',
-                        'rgba(128, 0, 128, 1)'
-                        ],
-                        borderWidth: 1
-                    }]
-                    },
-                    options: {
-                    responsive: false,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                        position: 'top',
-                        },
-                        tooltip: {
-                        callbacks: {
-                            label: function (tooltipItem) {
-                            return tooltipItem.label + ': ' + tooltipItem.raw + ' préstamos';
-                            }
-                        }
-                        }
-                    }
-                    }
-                });
+    <script>
+        google.charts.load("current", { packages: ["corechart"] });
+        google.charts.setOnLoadCallback(drawCharts);
 
-                // Script para exportar la gráfica a PDF
-                document.getElementById('exportarPDF').addEventListener('click', function () {
-                    var canvas = document.getElementById('prestamosPorCarrera');
-                    var canvasImg = canvas.toDataURL('image/png', 1.0);
+        function drawCharts() {
+            // Gráfica 2D: Préstamos por Carrera
+            var dataPrestamos = google.visualization.arrayToDataTable([
+                ['Carrera', 'Número de Préstamos'],
+                <?php
+                for ($i = 0; $i < count($carreras); $i++) {
+                    echo "['" . $carreras[$i] . "', " . $prestamos[$i] . "]";
+                    if ($i < count($carreras) - 1) echo ",";
+                }
+                ?>
+            ]);
 
-                    const { jsPDF } = window.jspdf;
-                    const pdf = new jsPDF();
+            var optionsPrestamos = {
+                title: '',
+                chartArea: { width: '90%', height: '80%' },
+            };
 
-                    pdf.addImage(canvasImg, 'PNG', 15, 15, 180, 180);
+            var chartPrestamos = new google.visualization.PieChart(document.getElementById('piechart_2d'));
+            chartPrestamos.draw(dataPrestamos, optionsPrestamos);
 
-                    pdf.save('grafica-prestamos.pdf');
-                });
-                </script>
+            // Botón para exportar la gráfica 2D a PDF
+            document.getElementById('exportarPDF1').addEventListener('click', function () {
+                exportarGrafica(chartPrestamos, 'grafica-prestamos.pdf');
+            });
 
+            // Gráfica 3D: Alumnos por Carrera
+            var dataAlumnos = google.visualization.arrayToDataTable([
+                ['Carrera', 'Número de Alumnos'],
+                <?php
+                for ($i = 0; $i < count($carrerasAlumnos); $i++) {
+                    echo "['" . $carrerasAlumnos[$i] . "', " . $numAlumnos[$i] . "]";
+                    if ($i < count($carrerasAlumnos) - 1) echo ",";
+                }
+                ?>
+            ]);
 
+            var optionsAlumnos = {
+                title: '',
+                is3D: true,
+                chartArea: { width: '90%', height: '80%' }
+            };
+
+            var chartAlumnos = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+            chartAlumnos.draw(dataAlumnos, optionsAlumnos);
+
+            // Botón para exportar la gráfica 3D a PDF
+            document.getElementById('exportarPDF2').addEventListener('click', function () {
+                exportarGrafica(chartAlumnos, 'grafica-alumnos.pdf');
+            });
+        }
+
+        // Función para exportar gráficos a PDF
+        function exportarGrafica(chart, fileName) {
+            const uri = chart.getImageURI();
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF();
+            pdf.addImage(uri, 'PNG', 15, 40, 180, 160);
+            pdf.save(fileName);
+        }
+    </script>
     <!-- Pie de Página -->
     <div class="footer">
       <p>&copy; 2024 - Instituto Tecnologico del Sur de Nayarit - Gestion de Inventario</p>
