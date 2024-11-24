@@ -54,7 +54,7 @@ $conexion->close();
 <html lang="es">
 
 <head>
-  <title>Prestamos - Gestion de Inventario</title>
+  <title>Estadisticas - Gestion de Inventario</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -63,7 +63,6 @@ $conexion->close();
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Chart.js -->
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script><!-- Para exportar la grafica -->
-
 </head>
 
 <body>
