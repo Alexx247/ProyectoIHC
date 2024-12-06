@@ -76,7 +76,6 @@ include 'verificar_sesion.php';
         <select class="form-select" id="estado" name="estado" >
         <option value="">Seleccione una estado</option>
           <option value="Disponible">Disponible</option>
-          <option value="En préstamo">En préstamo</option>
           <option value="Fuera de servicio">Fuera de servicio</option>
         </select>
       </div>

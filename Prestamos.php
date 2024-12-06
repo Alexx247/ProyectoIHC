@@ -6,7 +6,7 @@ include 'verificar_sesion.php';
 <html lang="es">
 
 <head>
-  <title>Prestamos - Gestion de Inventario</title>
+  <title>Préstamos - Gestión de Inventario</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -43,29 +43,31 @@ include 'verificar_sesion.php';
         Préstamos
       </a>
       <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">
-            <img src="img/salir-foto.png" alt="Icono Cerrar Sesión">
-            Cerrar Sesión
-        </a>
+        <img src="img/salir-foto.png" alt="Icono Cerrar Sesión">
+        Cerrar Sesión
+      </a>
     </nav>
   </div>
-<!-- Modal de Confirmación de Cerrar Sesión -->
-<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+
+  <!-- Modal de Confirmación de Cerrar Sesión -->
+  <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="logoutModalLabel">Cerrar Sesión</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-            </div>
-            <div class="modal-body">
-                ¿Estás seguro de que deseas cerrar sesión?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <a href="cerrar_sesion.php" class="btn btn-danger">Sí, cerrar sesión</a>
-            </div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="logoutModalLabel">Cerrar Sesión</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
         </div>
+        <div class="modal-body">
+          ¿Estás seguro de que deseas cerrar sesión?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <a href="cerrar_sesion.php" class="btn btn-danger">Sí, cerrar sesión</a>
+        </div>
+      </div>
     </div>
-</div>
+  </div>
+
   <!-- Contenido Principal -->
   <div class="main-content">
     <!-- Mensajes con botón de cierre -->
@@ -76,92 +78,93 @@ include 'verificar_sesion.php';
 
     <!-- Formulario de Búsqueda de Dispositivos Prestados -->
     <h2>Búsqueda de préstamos</h2>
-    <form>
+    <form method="GET" action="Prestamos.php">
       <div class="mb-3">
-        <label for="idDispositivo" class="form-label">Codigo del dispositivo</label>
-        <input type="text" class="form-control" id="idDispositivo" placeholder="Ingrese el ID del dispositivo">
-      </div>
-      <div class="mb-3">
-        <label for="nombreDispositivo" class="form-label">Nombre del dispositivo</label>
-        <input type="text" class="form-control" id="nombreDispositivo" placeholder="Ingrese el nombre del dispositivo">
-      </div>
-      <div class="mb-3">
-        <label for="numeroControl" class="form-label">N° Control del alumno</label>
-        <input type="text" class="form-control" id="numeroControl" placeholder="Ingrese el número de control">
+        <label for="idDispositivo" class="form-label">Código del dispositivo</label>
+        <input type="text" class="form-control" id="idDispositivo" name="idDispositivo" placeholder="Ingrese el ID del dispositivo">
       </div>
       <div class="btn-group">
-        <button type="button" class="btn btn-primary">Buscar</button>
+        <button type="submit" class="btn btn-primary">Buscar</button>
       </div>
     </form>
 
     <?php
-            
+    // Verificar si se ha iniciado sesión y obtener el idUsuario
+    if (!isset($_SESSION['usuario_id'])) {
+      header("Location: login.php");
+      exit();
+    }
 
-            // Obtener el idUsuario desde la sesión
-            $idUsuario = $_SESSION['usuario_id'];
+    $idUsuario = $_SESSION['usuario_id'];
 
-            include 'Conexion.php';
+    include 'Conexion.php';
 
-            // Consulta SQL para obtener los datos de los préstamos realizados por el usuario
-            $sql = "SELECT idDispositivo, numC, fechaSolicitud, fechaEntrega, aula 
-                    FROM registroprestamo 
-                    WHERE idUsuario = ?"; // Filtrar por el idUsuario
+    // Obtener el valor de búsqueda del formulario
+    $idDispositivo = isset($_GET['idDispositivo']) ? $_GET['idDispositivo'] : null;
 
-            $stmt = $conexion->prepare($sql);
-            $stmt->bind_param("i", $idUsuario); // Usamos "i" porque idUsuario es un entero
-            $stmt->execute();
-            $resultado = $stmt->get_result();
-            ?>
+    // Construir la consulta SQL con o sin filtro
+    $sql = "SELECT idDispositivo, numC, fechaSolicitud, fechaEntrega, aula 
+            FROM historial 
+            WHERE idUsuario = ?";
 
-            <!-- Tabla de Datos -->
-            <h3>Préstamos actuales</h3>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th class="text-center">Código Dispositivo</th>
-                        <th class="text-center">N° Control Alumno</th>
-                        <th class="text-center">Fecha de Solicitud</th>
-                        <th class="text-center">Fecha Límite</th>
-                        <th class="text-center">Aula</th>
-                        <th class="text-center">Editar Préstamo</th>
-                        <th class="text-center">Eliminar Préstamo</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    // Verificar si hay resultados
-                    if ($resultado->num_rows > 0) {
-                        // Recorrer y mostrar los datos de cada fila
-                        while ($fila = $resultado->fetch_assoc()) {
-                            echo "<tr>";
-                            echo "<td class='text-center'>" . $fila["idDispositivo"] . "</td>";
-                            echo "<td class='text-center'>" . $fila["numC"] . "</td>";
-                            echo "<td class='text-center'>" . $fila["fechaSolicitud"] . "</td>";
-                            echo "<td class='text-center'>" . $fila["fechaEntrega"] . "</td>";
-                            echo "<td class='text-center'>" . $fila["aula"] . "</td>";
-                            echo "<td class='text-center'>" . "<button class='btn btn-warning btn-sm' onclick=\"mostrarEditarModal('" . $fila["idDispositivo"] . "', '" . $fila["numC"] . "', '" . $fila["fechaSolicitud"] . "', '" . $fila["fechaEntrega"] . "', '" . $fila["aula"] . "')\">Editar</button> " . "</td>";
-                            echo "<td class='text-center'>" . "<button class='btn btn-danger btn-sm' onclick=\"eliminarPrestamo('" . $fila["idDispositivo"] . "')\">Eliminar</button>" . "</td>";
-                            echo "</tr>";
-                        }
-                    } else {
-                        // Mensaje si no hay datos
-                        echo "<tr><td colspan='7'>No hay préstamos registrados actualmente</td></tr>";
-                    }
-                    ?>
-                </tbody>
-            </table>
+    if ($idDispositivo) {
+      $sql .= " AND idDispositivo LIKE ?";
+    }
 
-            <?php
-            // Cerrar la conexión a la base de datos
-            $conexion->close();
-            ?>
+    // Preparar y ejecutar la consulta
+    $stmt = $conexion->prepare($sql);
+    if ($idDispositivo) {
+      $idDispositivoParam = '%' . $idDispositivo . '%';
+      $stmt->bind_param("is", $idUsuario, $idDispositivoParam);
+    } else {
+      $stmt->bind_param("i", $idUsuario);
+    }
+    $stmt->execute();
+    $resultado = $stmt->get_result();
+    ?>
 
+    <!-- Tabla de Datos -->
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th class="text-center">Código Dispositivo</th>
+          <th class="text-center">N° Control Alumno</th>
+          <th class="text-center">Fecha de Solicitud</th>
+          <th class="text-center">Fecha Límite</th>
+          <th class="text-center">Aula</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php
+        // Verificar si hay resultados
+        if ($resultado->num_rows > 0) {
+          // Recorrer y mostrar los datos de cada fila
+          while ($fila = $resultado->fetch_assoc()) {
+            echo "<tr>";
+            echo "<td class='text-center'>" . $fila["idDispositivo"] . "</td>";
+            echo "<td class='text-center'>" . $fila["numC"] . "</td>";
+            echo "<td class='text-center'>" . $fila["fechaSolicitud"] . "</td>";
+            echo "<td class='text-center'>" . $fila["fechaEntrega"] . "</td>";
+            echo "<td class='text-center'>" . $fila["aula"] . "</td>";
+            echo "</tr>";
+          }
+        } else {
+          // Mensaje si no hay datos
+          echo "<tr><td colspan='5'>No hay préstamos registrados actualmente</td></tr>";
+        }
+        ?>
+      </tbody>
+    </table>
 
+    <?php
+    // Cerrar la conexión a la base de datos
+    $conexion->close();
+    ?>
 
     <hr>
     <!-- Pie de Página -->
     <div class="footer">
-      <p>&copy; 2024 - Instituto Tecnologico del Sur de Nayarit - Gestion de Inventario</p>
+      <p>&copy; 2024 - Instituto Tecnológico del Sur de Nayarit - Gestión de Inventario</p>
     </div>
 
 </body>
