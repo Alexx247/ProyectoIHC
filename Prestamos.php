@@ -71,7 +71,7 @@ include 'verificar_sesion.php';
   <!-- Contenido Principal -->
   <div class="main-content">
     <!-- Mensajes con botón de cierre -->
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <div class="alert alert-success alert-dismissible fade show" role="alert" id="mensajeInfo">
       Bienvenido a la gestión de préstamos.
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
@@ -81,7 +81,8 @@ include 'verificar_sesion.php';
     <form method="GET" action="Prestamos.php">
       <div class="mb-3">
         <label for="idDispositivo" class="form-label">Código del dispositivo</label>
-        <input type="text" class="form-control" id="idDispositivo" name="idDispositivo" placeholder="Ingrese el ID del dispositivo">
+        <input type="text" class="form-control" id="idDispositivo" name="idDispositivo"
+          placeholder="Ingrese el código del dispositivo">
       </div>
       <div class="btn-group">
         <button type="submit" class="btn btn-primary">Buscar</button>
@@ -127,10 +128,10 @@ include 'verificar_sesion.php';
     <table class="table table-striped">
       <thead>
         <tr>
-          <th class="text-center">Código Dispositivo</th>
-          <th class="text-center">N° Control Alumno</th>
-          <th class="text-center">Fecha de Solicitud</th>
-          <th class="text-center">Fecha Límite</th>
+          <th class="text-center">Código dispositivo</th>
+          <th class="text-center">N° control alumno</th>
+          <th class="text-center">Fecha de solicitud</th>
+          <th class="text-center">Fecha límite</th>
           <th class="text-center">Aula</th>
         </tr>
       </thead>
@@ -155,6 +156,17 @@ include 'verificar_sesion.php';
         ?>
       </tbody>
     </table>
+    <script>
+      // Programar la desaparición del primer mensaje a los 5 segundos
+      setTimeout(() => {
+        const mensajeInfo = document.getElementById('mensajeInfo');
+        if (mensajeInfo) {
+          mensajeInfo.classList.remove('show'); // Remueve la clase que lo muestra
+          mensajeInfo.classList.add('fade');   // Asegura la animación de desvanecimiento
+          setTimeout(() => mensajeInfo.remove(), 150); // Elimina el elemento del DOM
+        }
+      }, 5000); // 5 segundos
+    </script>
 
     <?php
     // Cerrar la conexión a la base de datos

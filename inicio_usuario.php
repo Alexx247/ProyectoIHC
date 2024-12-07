@@ -42,20 +42,20 @@ include 'verificar_sesion.php';
                 Préstamos
             </a>
             <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">
-            <img src="img/salir-foto.png" alt="Icono Cerrar Sesión">
-            Cerrar Sesión
-        </a>
+                <img src="img/salir-foto.png" alt="Icono Cerrar Sesión">
+                Cerrar Sesión
+            </a>
         </nav>
     </div>
 
     <!-- Contenido Principal -->
     <div class="main-content">
         <!-- Mensajes con botón de cierre -->
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            Bienvenido al Sistema de Control de Inventario del ITSN. Aquí podrás gestionar los préstamos de equipos.
+        <div class="alert alert-success alert-dismissible fade show" role="alert" id="mensajeBienvenida">
+            Bienvenido al sistema de control de inventario del ITSN. Aquí podrás gestionar los préstamos de equipos.
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-        <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <div class="alert alert-info alert-dismissible fade show" role="alert" id="mensajeInfo">
             Mantén la información actualizada para un mejor control.
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
@@ -146,6 +146,25 @@ include 'verificar_sesion.php';
             </div>
         </div>
 
+        <!-- Modal para mostrar mensaje de error al resgitrar el prestamo -->
+        <div class="modal fade" id="resultadoModalPrestamoIncompleto" tabindex="-1"
+            aria-labelledby="resultadoModalLabelGuardar" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="resultadoModalLabelGuardar">Resultado</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body" id="modalMensajeGuardar">
+                        Hay datos incompletos o las fechas no son correctas!!
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Modal para mostrar mensaje de se edito exitosamente el prestamo -->
         <div class="modal fade" id="resultadoModalEditar" tabindex="-1" aria-labelledby="resultadoModalLabelEditar"
             aria-hidden="true">
@@ -203,24 +222,24 @@ include 'verificar_sesion.php';
                 </div>
             </div>
         </div>
-<!-- Modal de Confirmación de Cerrar Sesión -->
-<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="logoutModalLabel">Cerrar Sesión</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-            </div>
-            <div class="modal-body">
-                ¿Estás seguro de que deseas cerrar sesión?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <a href="cerrar_sesion.php" class="btn btn-danger">Sí, cerrar sesión</a>
+        <!-- Modal de Confirmación de Cerrar Sesión -->
+        <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="logoutModalLabel">Cerrar Sesión</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body">
+                        ¿Estás seguro de que deseas cerrar sesión?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <a href="cerrar_sesion.php" class="btn btn-danger">Sí, cerrar sesión</a>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
 
         <script>
             // Función para enviar el formulario con AJAX
@@ -229,9 +248,14 @@ include 'verificar_sesion.php';
                 const idDispositivo = document.getElementById('idDispositivo').value.trim();
                 const numC = document.getElementById('numC').value.trim();
                 const fechaSolicitud = document.getElementById('fechaSolicitud').value.trim();
+                const fechaEntrega = document.getElementById('fechaEntrega').value.trim();
+                const aula = document.getElementById('aula').value.trim();
+                const fechaSolicitudObj = new Date(fechaSolicitud);
+                const fechaEntregaObj = new Date(fechaEntrega);
 
-                if (!idDispositivo || !numC || !fechaSolicitud) {
-                    alert("Por favor, complete los campos obligatorios: Código del dispositivo, N° Control Alumno y Fecha de Solicitud.");
+                // Verificar si hay campos vacíos
+                if (!idDispositivo || !numC || !fechaSolicitud || !fechaEntrega || !aula || fechaEntregaObj < fechaSolicitudObj) {
+                    new bootstrap.Modal(document.getElementById('resultadoModalPrestamoIncompleto')).show();
                     return;
                 }
 
@@ -358,69 +382,89 @@ include 'verificar_sesion.php';
                     })
                     .catch(error => console.error('Error:', error));
             }
+
+            // Programar la desaparición del primer mensaje a los 5 segundos
+            setTimeout(() => {
+                const mensajeBienvenida = document.getElementById('mensajeBienvenida');
+                if (mensajeBienvenida) {
+                    mensajeBienvenida.classList.remove('show'); // Remueve la clase que lo muestra
+                    mensajeBienvenida.classList.add('fade');   // Asegura la animación de desvanecimiento
+                    setTimeout(() => mensajeBienvenida.remove(), 150); // Elimina el elemento del DOM
+                }
+            }, 5000); // 5 segundos
+
+            // Programar la desaparición del segundo mensaje a los 7 segundos
+            setTimeout(() => {
+                const mensajeInfo = document.getElementById('mensajeInfo');
+                if (mensajeInfo) {
+                    mensajeInfo.classList.remove('show'); // Remueve la clase que lo muestra
+                    mensajeInfo.classList.add('fade');   // Asegura la animación de desvanecimiento
+                    setTimeout(() => mensajeInfo.remove(), 150); // Elimina el elemento del DOM
+                }
+            }, 7000); // 7 segundos
         </script>
 
-            <?php
-            
+        <?php
 
-            // Obtener el idUsuario desde la sesión
-            $idUsuario = $_SESSION['usuario_id'];
 
-            include 'Conexion.php';
+        // Obtener el idUsuario desde la sesión
+        $idUsuario = $_SESSION['usuario_id'];
 
-            // Consulta SQL para obtener los datos de los préstamos realizados por el usuario
-            $sql = "SELECT idDispositivo, numC, fechaSolicitud, fechaEntrega, aula 
+        include 'Conexion.php';
+
+        // Consulta SQL para obtener los datos de los préstamos realizados por el usuario
+        $sql = "SELECT idDispositivo, numC, fechaSolicitud, fechaEntrega, aula 
                     FROM registroprestamo 
                     WHERE idUsuario = ?"; // Filtrar por el idUsuario
+        
+        $stmt = $conexion->prepare($sql);
+        $stmt->bind_param("i", $idUsuario); // Usamos "i" porque idUsuario es un entero
+        $stmt->execute();
+        $resultado = $stmt->get_result();
+        ?>
 
-            $stmt = $conexion->prepare($sql);
-            $stmt->bind_param("i", $idUsuario); // Usamos "i" porque idUsuario es un entero
-            $stmt->execute();
-            $resultado = $stmt->get_result();
-            ?>
-
-            <!-- Tabla de Datos -->
-            <h3>Préstamos actuales</h3>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th class="text-center">Código Dispositivo</th>
-                        <th class="text-center">N° Control Alumno</th>
-                        <th class="text-center">Fecha de Solicitud</th>
-                        <th class="text-center">Fecha Límite</th>
-                        <th class="text-center">Aula</th>
-                        <th class="text-center">Editar Préstamo</th>
-                        <th class="text-center">Eliminar Préstamo</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    // Verificar si hay resultados
-                    if ($resultado->num_rows > 0) {
-                        // Recorrer y mostrar los datos de cada fila
-                        while ($fila = $resultado->fetch_assoc()) {
-                            echo "<tr>";
-                            echo "<td class='text-center'>" . $fila["idDispositivo"] . "</td>";
-                            echo "<td class='text-center'>" . $fila["numC"] . "</td>";
-                            echo "<td class='text-center'>" . $fila["fechaSolicitud"] . "</td>";
-                            echo "<td class='text-center'>" . $fila["fechaEntrega"] . "</td>";
-                            echo "<td class='text-center'>" . $fila["aula"] . "</td>";
-                            echo "<td class='text-center'>" . "<button class='btn btn-warning btn-sm' onclick=\"mostrarEditarModal('" . $fila["idDispositivo"] . "', '" . $fila["numC"] . "', '" . $fila["fechaSolicitud"] . "', '" . $fila["fechaEntrega"] . "', '" . $fila["aula"] . "')\">Editar</button> " . "</td>";
-                            echo "<td class='text-center'>" . "<button class='btn btn-danger btn-sm' onclick=\"eliminarPrestamo('" . $fila["idDispositivo"] . "')\">Eliminar</button>" . "</td>";
-                            echo "</tr>";
-                        }
-                    } else {
-                        // Mensaje si no hay datos
-                        echo "<tr><td colspan='7'>No hay préstamos registrados actualmente</td></tr>";
+        <!-- Tabla de Datos -->
+        <h3>Préstamos actuales</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th class="text-center">Código Dispositivo</th>
+                    <th class="text-center">N° Control Alumno</th>
+                    <th class="text-center">Fecha de Solicitud</th>
+                    <th class="text-center">Fecha Límite</th>
+                    <th class="text-center">Aula</th>
+                    <th class="text-center">Editar Préstamo</th>
+                    <th class="text-center">Eliminar Préstamo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                // Verificar si hay resultados
+                if ($resultado->num_rows > 0) {
+                    // Recorrer y mostrar los datos de cada fila
+                    while ($fila = $resultado->fetch_assoc()) {
+                        echo "<tr>";
+                        echo "<td class='text-center'>" . $fila["idDispositivo"] . "</td>";
+                        echo "<td class='text-center'>" . $fila["numC"] . "</td>";
+                        echo "<td class='text-center'>" . $fila["fechaSolicitud"] . "</td>";
+                        echo "<td class='text-center'>" . $fila["fechaEntrega"] . "</td>";
+                        echo "<td class='text-center'>" . $fila["aula"] . "</td>";
+                        echo "<td class='text-center'>" . "<button class='btn btn-warning btn-sm' onclick=\"mostrarEditarModal('" . $fila["idDispositivo"] . "', '" . $fila["numC"] . "', '" . $fila["fechaSolicitud"] . "', '" . $fila["fechaEntrega"] . "', '" . $fila["aula"] . "')\">Editar</button> " . "</td>";
+                        echo "<td class='text-center'>" . "<button class='btn btn-danger btn-sm' onclick=\"eliminarPrestamo('" . $fila["idDispositivo"] . "')\">Eliminar</button>" . "</td>";
+                        echo "</tr>";
                     }
-                    ?>
-                </tbody>
-            </table>
+                } else {
+                    // Mensaje si no hay datos
+                    echo "<tr><td colspan='7'>No hay préstamos registrados actualmente</td></tr>";
+                }
+                ?>
+            </tbody>
+        </table>
 
-            <?php
-            // Cerrar la conexión a la base de datos
-            $conexion->close();
-            ?>
+        <?php
+        // Cerrar la conexión a la base de datos
+        $conexion->close();
+        ?>
 
 
         <hr>

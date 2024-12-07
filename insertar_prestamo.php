@@ -19,12 +19,6 @@ $fechaSolicitud = $_POST['fechaSolicitud'];
 $fechaEntrega = $_POST['fechaEntrega'];
 $aula = $_POST['aula'];
 
-// Validar que la fecha de entrega no sea anterior a la fecha de solicitud
-if (strtotime($fechaEntrega) < strtotime($fechaSolicitud)) {
-    echo "Error: La fecha de entrega no puede ser anterior a la fecha de solicitud.";
-    $conexion->close();
-    exit;
-}
 
 // Validar que el numC exista en la tabla de alumnos
 $sqlVerificarAlumno = "SELECT numControl FROM alumnos WHERE numControl = ?";
