@@ -74,6 +74,10 @@ include 'verificar_sesion.php';
 
   <!-- Contenido Principal -->
   <div class="main-content">
+  <div class="alert alert-success alert-dismissible fade show" role="alert" id="mensajeInfo">
+      Bienvenido a la gestión de préstamos.
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
     <h2>Búsqueda de préstamos</h2>
     <form method="GET" action="Prestamos.php">
       <div class="mb-3">
@@ -116,9 +120,9 @@ include 'verificar_sesion.php';
       <thead>
         <tr>
           <th class="text-center">Código Dispositivo</th>
-          <th class="text-center">N° Control Alumno</th>
-          <th class="text-center">Fecha de Solicitud</th>
-          <th class="text-center">Fecha Límite</th>
+          <th class="text-center">N° Control alumno</th>
+          <th class="text-center">Fecha de solicitud</th>
+          <th class="text-center">Fecha límite</th>
           <th class="text-center">Aula</th>
         </tr>
       </thead>
@@ -140,6 +144,17 @@ include 'verificar_sesion.php';
         ?>
       </tbody>
     </table>
+    <script>
+      // Programar la desaparición del primer mensaje a los 5 segundos
+      setTimeout(() => {
+        const mensajeInfo = document.getElementById('mensajeInfo');
+        if (mensajeInfo) {
+          mensajeInfo.classList.remove('show'); // Remueve la clase que lo muestra
+          mensajeInfo.classList.add('fade');   // Asegura la animación de desvanecimiento
+          setTimeout(() => mensajeInfo.remove(), 150); // Elimina el elemento del DOM
+        }
+      }, 5000); // 5 segundos
+    </script>
 
     <?php
     $conexion->close();

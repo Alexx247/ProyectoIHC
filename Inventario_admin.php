@@ -56,8 +56,8 @@ include 'verificar_sesion.php';
   <!-- Contenido Principal -->
   <div class="main-content">
     <h2>Gestión de dispositivos</h2>
-    <div class="alert alert-info alert-dismissible fade show" role="alert">
-      Aquí puedes agregar, editar o eliminar dispositivos del inventario.
+    <div class="alert alert-info alert-dismissible fade show" role="alert" id="mensajeInfo">
+    Aquí puedes agregar, editar o eliminar dispositivos del inventario.
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 
@@ -128,6 +128,25 @@ include 'verificar_sesion.php';
                 </div>
             </div>
         </div>
+        <!-- Modal para mostrar mensaje de error al resgitrar el prestamo -->
+        <div class="modal fade" id="resultadoModalInventarioIncompleto" tabindex="-1"
+            aria-labelledby="resultadoModalLabelGuardar" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="resultadoModalLabelGuardar">Resultado</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body" id="modalMensajeGuardar">
+                        Por favor, complete los campos obligatorios: Codigo de dispositivo, nombre, marca y estado.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         <!-- Modal para editar un dispositivo -->
         <div class="modal fade" id="editarModal" tabindex="-1" aria-labelledby="editarModalLabel" aria-hidden="true">
@@ -229,7 +248,7 @@ include 'verificar_sesion.php';
                 const estado = document.getElementById('estado').value;
 
                 if (!idDispositivo || !nombre || !marca || estado === "") {
-                    alert("Por favor, complete los campos obligatorios: ID Dispositivo, Nombre, Marca y Estado.");
+                    new bootstrap.Modal(document.getElementById('resultadoModalInventarioIncompleto')).show();
                     return;
                 }
 
@@ -352,6 +371,14 @@ include 'verificar_sesion.php';
                         console.error('Error al eliminar :', error);
                     });
             }
+            setTimeout(() => {
+                const mensajeInfo = document.getElementById('mensajeInfo');
+                if (mensajeInfo) {
+                    mensajeInfo.classList.remove('show'); // Remueve la clase que lo muestra
+                    mensajeInfo.classList.add('fade');   // Asegura la animación de desvanecimiento
+                    setTimeout(() => mensajeInfo.remove(), 150); // Elimina el elemento del DOM
+                }
+            }, 5000); /
         </script>
         <?php
         include 'Conexion.php';

@@ -56,13 +56,13 @@ include 'verificar_sesion.php';
     <!-- Contenido Principal -->
     <div class="main-content">
         <!-- Mensajes con botón de cierre -->
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            Bienvenido a la gestión de Alumnos.
+        <div class="alert alert-success alert-dismissible fade show" role="alert" id="mensajeBienvenida">
+            Bienvenido a la gestión de alumnos.
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
 
         <!-- Formulario de Registro de Alumnos -->
-        <h2>Registro de Alumnos</h2>
+        <h2>Registro de alumnos</h2>
         <form id="alumnoForm">
             <div class="mb-3">
                 <label for="numControl" class="form-label">N° Control</label>
@@ -75,12 +75,12 @@ include 'verificar_sesion.php';
                     required>
             </div>
             <div class="mb-3">
-                <label for="apPat" class="form-label">Apellido Paterno</label>
+                <label for="apPat" class="form-label">Apellido paterno</label>
                 <input type="text" class="form-control" id="apPat" name="apPat"
                     placeholder="Ingrese el apellido paterno" required>
             </div>
             <div class="mb-3">
-                <label for="apMat" class="form-label">Apellido Materno</label>
+                <label for="apMat" class="form-label">Apellido materno</label>
                 <input type="text" class="form-control" id="apMat" name="apMat"
                     placeholder="Ingrese el apellido materno">
             </div>
@@ -127,12 +127,32 @@ include 'verificar_sesion.php';
             </div>
         </div>
 
+        <!-- Modal para mostrar mensaje de que no se guardo exitosamente el alumno -->
+        <div class="modal fade" id="resultadoModalNoExitoAlumno" tabindex="-1"
+            aria-labelledby="resultadoModalLabelGuardar" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="resultadoModalLabelGuardar">Resultado</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body" id="modalMensajeGuardar">
+                        Por favor, complete los campos obligatorios: N° control del alumno , nombres, apellido paterno y
+                        domicilio.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Modal para editar un alumno -->
         <div class="modal fade" id="editarModal" tabindex="-1" aria-labelledby="editarModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="editarModalLabel">Editar Alumno</h5>
+                        <h5 class="modal-title" id="editarModalLabel">Editar alumno</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                     </div>
                     <div class="modal-body">
@@ -148,13 +168,13 @@ include 'verificar_sesion.php';
 
                             <!-- Campo para apellido paterno -->
                             <div class="mb-3">
-                                <label for="editApPat" class="form-label">Apellido Paterno</label>
+                                <label for="editApPat" class="form-label">Apellido paterno</label>
                                 <input type="text" class="form-control" id="editApPat" name="apPat" required>
                             </div>
 
                             <!-- Campo para apellido materno -->
                             <div class="mb-3">
-                                <label for="editApMat" class="form-label">Apellido Materno</label>
+                                <label for="editApMat" class="form-label">Apellido materno</label>
                                 <input type="text" class="form-control" id="editApMat" name="apMat" required>
                             </div>
 
@@ -274,7 +294,7 @@ include 'verificar_sesion.php';
                 const carrera = document.getElementById('carrera').value;
 
                 if (!numControl || !nombres || !apPat || !domicilio || carrera === "") {
-                    alert("Por favor, complete los campos obligatorios: N° Control Alumno , Nombres, Apellido Paterno y domicilio.");
+                    new bootstrap.Modal(document.getElementById('resultadoModalNoExitoAlumno')).show();
                     return;
                 }
 
@@ -401,6 +421,15 @@ include 'verificar_sesion.php';
                     })
                     .catch(error => console.error('Error:', error));
             }
+             // Programar la desaparición del mensaje después de 5 segundos
+             setTimeout(() => {
+                const mensajeBienvenida = document.getElementById('mensajeBienvenida');
+                if (mensajeBienvenida) {
+                    mensajeBienvenida.classList.remove('show'); // Remueve la clase que lo muestra
+                    mensajeBienvenida.classList.add('fade');   // Asegura la animación de desvanecimiento
+                    setTimeout(() => mensajeBienvenida.remove(), 150); // Elimina el elemento del DOM
+                }
+            }, 5000);
         </script>
 
         <?php
@@ -416,15 +445,15 @@ include 'verificar_sesion.php';
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th class="text-center">N° Control Alumno</th>
+                    <th class="text-center">N° Control alumno</th>
                     <th class="text-center">Nombres</th>
-                    <th class="text-center">Apellido Paterno</th>
-                    <th class="text-center">Apellido Materno</th>
+                    <th class="text-center">Apellido paterno</th>
+                    <th class="text-center">Apellido materno</th>
                     <th class="text-center">Telefono</th>
                     <th class="text-center">Domicilio</th>
                     <th class="text-center">Carrera</th>
-                    <th class="text-center">Editar Alumno</th>
-                    <th class="text-center">Eliminar Alumno</th>
+                    <th class="text-center">Editar alumno</th>
+                    <th class="text-center">Eliminar alumno</th>
                 </tr>
             </thead>
             <tbody>

@@ -56,11 +56,11 @@ include 'verificar_sesion.php';
     <!-- Contenido Principal -->
     <div class="main-content">
         <!-- Mensajes con botón de cierre -->
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            Bienvenido al Sistema de Control de Inventario del ITSN. Aquí podrás gestionar los préstamos de equipos.
+        <div class="alert alert-success alert-dismissible fade show" role="alert" id="mensajeBienvenida">
+            Bienvenido al sistema de control de inventario del ITSN. Aquí podrás gestionar los préstamos de equipos.
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-        <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <div class="alert alert-info alert-dismissible fade show" role="alert" id="mensajeInfo">
             Mantén la información actualizada para un mejor control.
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
@@ -131,7 +131,24 @@ include 'verificar_sesion.php';
                 </div>
             </div>
         </div>
-
+<!-- Modal para mostrar mensaje de error al resgitrar el prestamo -->
+<div class="modal fade" id="resultadoModalPrestamoIncompleto" tabindex="-1"
+            aria-labelledby="resultadoModalLabelGuardar" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="resultadoModalLabelGuardar">Resultado</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body" id="modalMensajeGuardar">
+                        Hay datos incompletos o las fechas no son correctas!!
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- Modal para mostrar mensaje de se guardo exitosamente el prestamo -->
         <div class="modal fade" id="resultadoModal" tabindex="-1" aria-labelledby="resultadoModalLabelGuardar"
             aria-hidden="true">
@@ -235,9 +252,13 @@ include 'verificar_sesion.php';
                 const idDispositivo = document.getElementById('idDispositivo').value.trim();
                 const numC = document.getElementById('numC').value.trim();
                 const fechaSolicitud = document.getElementById('fechaSolicitud').value.trim();
+                const fechaEntrega = document.getElementById('fechaEntrega').value.trim();
+                const aula = document.getElementById('aula').value.trim();
+                const fechaSolicitudObj = new Date(fechaSolicitud);
+                const fechaEntregaObj = new Date(fechaEntrega);
 
-                if (!idDispositivo || !numC || !fechaSolicitud) {
-                    alert("Por favor, complete los campos obligatorios: Código del dispositivo, N° Control Alumno y Fecha de Solicitud.");
+                if (!idDispositivo || !numC || !fechaSolicitud || !fechaEntrega || !aula || fechaEntregaObj < fechaSolicitudObj) {
+                    new bootstrap.Modal(document.getElementById('resultadoModalPrestamoIncompleto')).show();
                     return;
                 }
 
@@ -364,6 +385,25 @@ include 'verificar_sesion.php';
                     })
                     .catch(error => console.error('Error:', error));
             }
+            // Programar la desaparición del primer mensaje a los 5 segundos
+            setTimeout(() => {
+                const mensajeBienvenida = document.getElementById('mensajeBienvenida');
+                if (mensajeBienvenida) {
+                    mensajeBienvenida.classList.remove('show'); // Remueve la clase que lo muestra
+                    mensajeBienvenida.classList.add('fade');   // Asegura la animación de desvanecimiento
+                    setTimeout(() => mensajeBienvenida.remove(), 150); // Elimina el elemento del DOM
+                }
+            }, 5000); // 5 segundos
+
+            // Programar la desaparición del segundo mensaje a los 7 segundos
+            setTimeout(() => {
+                const mensajeInfo = document.getElementById('mensajeInfo');
+                if (mensajeInfo) {
+                    mensajeInfo.classList.remove('show'); // Remueve la clase que lo muestra
+                    mensajeInfo.classList.add('fade');   // Asegura la animación de desvanecimiento
+                    setTimeout(() => mensajeInfo.remove(), 150); // Elimina el elemento del DOM
+                }
+            }, 7000); /
         </script>
 
         <?php
