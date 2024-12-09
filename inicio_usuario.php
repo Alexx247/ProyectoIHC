@@ -69,16 +69,16 @@ include 'verificar_sesion.php';
                     placeholder="Ingrese el codigo del dispositivo a prestar" required>
             </div>
             <div class="mb-3">
-                <label for="numC" class="form-label">N° Control Alumno</label>
+                <label for="numC" class="form-label">N° Control alumno</label>
                 <input type="text" class="form-control" id="numC" name="numC" placeholder="Ingrese el número de control"
                     required>
             </div>
             <div class="mb-3">
-                <label for="fechaSolicitud" class="form-label">Fecha de Solicitud</label>
+                <label for="fechaSolicitud" class="form-label">Fecha de solicitud</label>
                 <input type="date" class="form-control" id="fechaSolicitud" name="fechaSolicitud" required>
             </div>
             <div class="mb-3">
-                <label for="fechaEntrega" class="form-label">Fecha Limite</label>
+                <label for="fechaEntrega" class="form-label">Fecha limite</label>
                 <input type="date" class="form-control" id="fechaEntrega" name="fechaEntrega" required>
             </div>
             <div class="mb-3">
@@ -95,23 +95,23 @@ include 'verificar_sesion.php';
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="editarModalLabel">Editar Préstamo</h5>
+                        <h5 class="modal-title" id="editarModalLabel">Editar préstamo</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                     </div>
                     <div class="modal-body">
                         <form id="editarPrestamoForm">
                             <input type="hidden" id="editIdDispositivo" name="idDispositivo">
                             <div class="mb-3">
-                                <label for="editNumC" class="form-label">N° Control Alumno</label>
+                                <label for="editNumC" class="form-label">N° Control alumno</label>
                                 <input type="text" class="form-control" id="editNumC" name="numC" required>
                             </div>
                             <div class="mb-3">
-                                <label for="editFechaSolicitud" class="form-label">Fecha de Solicitud</label>
+                                <label for="editFechaSolicitud" class="form-label">Fecha de solicitud</label>
                                 <input type="date" class="form-control" id="editFechaSolicitud" name="fechaSolicitud"
                                     required>
                             </div>
                             <div class="mb-3">
-                                <label for="editFechaEntrega" class="form-label">Fecha Limite</label>
+                                <label for="editFechaEntrega" class="form-label">Fecha limite</label>
                                 <input type="date" class="form-control" id="editFechaEntrega" name="fechaEntrega"
                                     required>
                             </div>
@@ -253,7 +253,7 @@ include 'verificar_sesion.php';
                 const fechaSolicitudObj = new Date(fechaSolicitud);
                 const fechaEntregaObj = new Date(fechaEntrega);
 
-                // Verificar si hay campos vacíos
+                // Verificar si hay campos vacíos o fechas inconsistentes
                 if (!idDispositivo || !numC || !fechaSolicitud || !fechaEntrega || !aula || fechaEntregaObj < fechaSolicitudObj) {
                     new bootstrap.Modal(document.getElementById('resultadoModalPrestamoIncompleto')).show();
                     return;
@@ -271,18 +271,24 @@ include 'verificar_sesion.php';
                         // Mostrar el mensaje en el cuerpo de la modal
                         document.getElementById('modalMensajeGuardar').innerHTML = data;
 
-                        // Mostrar la modal de resultado
-                        new bootstrap.Modal(document.getElementById('resultadoModal')).show();
-
-                        // Limpiar el formulario después del envío
-                        document.getElementById('prestamoForm').reset();
-                        // Actualizar la tabla de registros después de la inserción
-                        actualizarTabla();
+                        // Verificar si el mensaje indica éxito o error
+                        if (data.includes("registrados exitosamente")) {
+                            // Si la respuesta indica éxito, limpiar el formulario
+                            document.getElementById('prestamoForm').reset();
+                            // Mostrar la modal de resultado
+                            new bootstrap.Modal(document.getElementById('resultadoModal')).show();
+                            // Actualizar la tabla de registros después de la inserción
+                            actualizarTabla();
+                        } else {
+                            // Si hay un error, solo mostrar el mensaje de error en la modal
+                            new bootstrap.Modal(document.getElementById('resultadoModal')).show();
+                        }
                     })
                     .catch(error => {
                         console.error('Error:', error);
                     });
             }
+
 
             // Función para actualizar la tabla con los datos más recientes
             function actualizarTabla() {
@@ -428,13 +434,13 @@ include 'verificar_sesion.php';
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th class="text-center">Código Dispositivo</th>
-                    <th class="text-center">N° Control Alumno</th>
-                    <th class="text-center">Fecha de Solicitud</th>
-                    <th class="text-center">Fecha Límite</th>
+                    <th class="text-center">Código dispositivo</th>
+                    <th class="text-center">N° control alumno</th>
+                    <th class="text-center">Fecha de solicitud</th>
+                    <th class="text-center">Fecha límite</th>
                     <th class="text-center">Aula</th>
-                    <th class="text-center">Editar Préstamo</th>
-                    <th class="text-center">Eliminar Préstamo</th>
+                    <th class="text-center">Editar préstamo</th>
+                    <th class="text-center">Eliminar préstamo</th>
                 </tr>
             </thead>
             <tbody>
