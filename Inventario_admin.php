@@ -378,7 +378,7 @@ include 'verificar_sesion.php';
                     mensajeInfo.classList.add('fade');   // Asegura la animación de desvanecimiento
                     setTimeout(() => mensajeInfo.remove(), 150); // Elimina el elemento del DOM
                 }
-            }, 5000); /
+            }, 5000); 
         </script>
         <?php
         include 'Conexion.php';
