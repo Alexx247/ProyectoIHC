@@ -173,7 +173,6 @@ include 'verificar_sesion.php';
                                 <label for="editEstado" class="form-label">Estado</label>
                                 <select class="form-select" id="editEstado" name="estado" required>
                                     <option value="Disponible">Disponible</option>
-                                    <option value="En préstamo">En préstamo</option>
                                     <option value="Fuera de servicio">Fuera de servicio</option>
                                 </select>
                             </div>

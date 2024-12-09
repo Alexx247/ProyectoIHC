@@ -25,7 +25,7 @@ include 'verificar_sesion.php';
     <!-- Barra de Navegación Vertical -->
     <div class="sidebar position-fixed">
         <nav class="nav flex-column">
-            <a class="nav-link active" href="inicio_usuario.php" style="color: #0066cc;">
+            <a class="nav-link active" href="inicio_admin.php" style="color: #0066cc;">
                 <img src="img/inicio-azul.png" alt="Icono Inicio">
                 Inicio
             </a>
@@ -275,13 +275,17 @@ include 'verificar_sesion.php';
                         // Mostrar el mensaje en el cuerpo de la modal
                         document.getElementById('modalMensajeGuardar').innerHTML = data;
 
-                        // Mostrar la modal de resultado
-                        new bootstrap.Modal(document.getElementById('resultadoModal')).show();
-
-                        // Limpiar el formulario después del envío
-                        document.getElementById('prestamoForm').reset();
-                        // Actualizar la tabla de registros después de la inserción
-                        actualizarTabla();
+                        if (data.includes("registrados exitosamente")) {
+                            // Si la respuesta indica éxito, limpiar el formulario
+                            document.getElementById('prestamoForm').reset();
+                            // Mostrar la modal de resultado
+                            new bootstrap.Modal(document.getElementById('resultadoModal')).show();
+                            // Actualizar la tabla de registros después de la inserción
+                            actualizarTabla();
+                        } else {
+                            // Si hay un error, solo mostrar el mensaje de error en la modal
+                            new bootstrap.Modal(document.getElementById('resultadoModal')).show();
+                        }
                     })
                     .catch(error => {
                         console.error('Error:', error);
