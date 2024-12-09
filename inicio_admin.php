@@ -1,7 +1,6 @@
 <?php
 include 'verificar_sesion.php';
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 
@@ -26,30 +25,26 @@ include 'verificar_sesion.php';
     <!-- Barra de Navegación Vertical -->
     <div class="sidebar position-fixed">
         <nav class="nav flex-column">
-            <a class="nav-link active" href="inicio_admin.php" style="color: #0066cc;">
+            <a class="nav-link active" href="inicio_usuario.php" style="color: #0066cc;">
                 <img src="img/inicio-azul.png" alt="Icono Inicio">
                 Inicio
             </a>
-            <a class="nav-link" href="Inventario_admin.php">
+            <a class="nav-link" href="Inventario.php">
                 <img src="img/inventario-foto.png" alt="Icono Inventario">
                 Inventario
             </a>
-            <a class="nav-link" href="Alumnos_admin.php">
+            <a class="nav-link" href="Alumnos.php">
                 <img src="img/alumnos-foto.png" alt="Icono Alumnos">
                 Alumnos
             </a>
-            <a class="nav-link" href="Prestamos_admin.php">
+            <a class="nav-link" href="Prestamos.php">
                 <img src="img/prestamos-foto.png" alt="Icono Préstamos">
                 Préstamos
             </a>
-            <a class="nav-link" href="Estadisticas.php">
-                <img src="img/estadisticas_foto.png" alt="Icono estadisticas">
-                Estadísticas
-            </a>
             <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">
-            <img src="img/salir-foto.png" alt="Icono Cerrar Sesión">
-            Cerrar Sesión
-        </a>
+                <img src="img/salir-foto.png" alt="Icono Cerrar Sesión">
+                Cerrar Sesión
+            </a>
         </nav>
     </div>
 
@@ -131,24 +126,7 @@ include 'verificar_sesion.php';
                 </div>
             </div>
         </div>
-<!-- Modal para mostrar mensaje de error al resgitrar el prestamo -->
-<div class="modal fade" id="resultadoModalPrestamoIncompleto" tabindex="-1"
-            aria-labelledby="resultadoModalLabelGuardar" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="resultadoModalLabelGuardar">Resultado</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                    </div>
-                    <div class="modal-body" id="modalMensajeGuardar">
-                        Hay datos incompletos o las fechas no son correctas!!
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+
         <!-- Modal para mostrar mensaje de se guardo exitosamente el prestamo -->
         <div class="modal fade" id="resultadoModal" tabindex="-1" aria-labelledby="resultadoModalLabelGuardar"
             aria-hidden="true">
@@ -160,6 +138,25 @@ include 'verificar_sesion.php';
                     </div>
                     <div class="modal-body" id="modalMensajeGuardar">
                         Se ha guardado el préstamo correctamente!!
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal para mostrar mensaje de error al resgitrar el prestamo -->
+        <div class="modal fade" id="resultadoModalPrestamoIncompleto" tabindex="-1"
+            aria-labelledby="resultadoModalLabelGuardar" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="resultadoModalLabelGuardar">Resultado</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body" id="modalMensajeGuardar">
+                        Hay datos incompletos o las fechas no son correctas!!
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -201,7 +198,7 @@ include 'verificar_sesion.php';
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn nbt-danger" id="confirmarEliminarBtn">Si, Eliminar</button>
+                        <button type="button" class="btn btn-danger" id="confirmarEliminarBtn">Si, Eliminar</button>
                     </div>
                 </div>
             </div>
@@ -225,25 +222,24 @@ include 'verificar_sesion.php';
                 </div>
             </div>
         </div>
-<!-- Modal de Confirmación de Cerrar Sesión -->
-<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="logoutModalLabel">Cerrar Sesión</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-            </div>
-            <div class="modal-body">
-                ¿Estás seguro de que deseas cerrar sesión?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <a href="cerrar_sesion.php" class="btn btn-danger">Sí, cerrar sesión</a>
+        <!-- Modal de Confirmación de Cerrar Sesión -->
+        <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="logoutModalLabel">Cerrar Sesión</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body">
+                        ¿Estás seguro de que deseas cerrar sesión?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <a href="cerrar_sesion.php" class="btn btn-danger">Sí, cerrar sesión</a>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-
 
         <script>
             // Función para enviar el formulario con AJAX
@@ -257,6 +253,7 @@ include 'verificar_sesion.php';
                 const fechaSolicitudObj = new Date(fechaSolicitud);
                 const fechaEntregaObj = new Date(fechaEntrega);
 
+                // Verificar si hay campos vacíos
                 if (!idDispositivo || !numC || !fechaSolicitud || !fechaEntrega || !aula || fechaEntregaObj < fechaSolicitudObj) {
                     new bootstrap.Modal(document.getElementById('resultadoModalPrestamoIncompleto')).show();
                     return;
@@ -289,7 +286,7 @@ include 'verificar_sesion.php';
 
             // Función para actualizar la tabla con los datos más recientes
             function actualizarTabla() {
-                fetch('obtener_prestamos.php')
+                fetch('obtener_prestamos_admin.php')
                     .then(response => response.text())
                     .then(data => {
                         // Reemplazar el contenido de la tabla con los nuevos datos
@@ -385,6 +382,7 @@ include 'verificar_sesion.php';
                     })
                     .catch(error => console.error('Error:', error));
             }
+
             // Programar la desaparición del primer mensaje a los 5 segundos
             setTimeout(() => {
                 const mensajeBienvenida = document.getElementById('mensajeBienvenida');
@@ -403,10 +401,10 @@ include 'verificar_sesion.php';
                     mensajeInfo.classList.add('fade');   // Asegura la animación de desvanecimiento
                     setTimeout(() => mensajeInfo.remove(), 150); // Elimina el elemento del DOM
                 }
-            }, 7000); 
+            }, 7000); // 7 segundos
         </script>
 
-        <?php
+<?php
         include 'Conexion.php';
 
         // Consulta SQL para obtener los datos de la tabla registroprestamo
@@ -456,6 +454,7 @@ include 'verificar_sesion.php';
         // Cerrar la conexión a la base de datos
         $conexion->close();
         ?>
+
 
         <hr>
         <!-- Pie de Página -->
