@@ -29,15 +29,15 @@ include 'verificar_sesion.php';
                 <img src="img/inicio-azul.png" alt="Icono Inicio">
                 Inicio
             </a>
-            <a class="nav-link" href="Inventario.php">
+            <a class="nav-link" href="Inventario_admin.php">
                 <img src="img/inventario-foto.png" alt="Icono Inventario">
                 Inventario
             </a>
-            <a class="nav-link" href="Alumnos.php">
+            <a class="nav-link" href="Alumnos_admin.php">
                 <img src="img/alumnos-foto.png" alt="Icono Alumnos">
                 Alumnos
             </a>
-            <a class="nav-link" href="Prestamos.php">
+            <a class="nav-link" href="Prestamos_admin.php">
                 <img src="img/prestamos-foto.png" alt="Icono Préstamos">
                 Préstamos
             </a>
