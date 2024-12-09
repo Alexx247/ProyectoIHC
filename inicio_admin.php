@@ -41,6 +41,10 @@ include 'verificar_sesion.php';
                 <img src="img/prestamos-foto.png" alt="Icono Préstamos">
                 Préstamos
             </a>
+            <a class="nav-link" href="Estadisticas.php">
+        <img src="img/estadisticas_foto.png" alt="Icono Estadísticas">
+        Estadísticas
+      </a>
             <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">
                 <img src="img/salir-foto.png" alt="Icono Cerrar Sesión">
                 Cerrar Sesión
