@@ -12,27 +12,53 @@ $carrera = $_POST['carrera'];
 
 // Verificar que todos los datos obligatorios estén presentes
 if (!$numControl || !$nombres || !$apPat || !$domicilio || !$carrera) {
-    die("Error: Por favor completa todos los campos obligatorios.");
+    echo "Error: Por favor completa todos los campos obligatorios.";
+    exit;
 }
 
-// Preparar y ejecutar la consulta SQL
-$sql = "INSERT INTO alumnos (numControl, nombres, apPat, apMat, telefono, domicilio, carrera) VALUES (?, ?, ?, ?, ?, ?, ?)";
-$stmt = $conexion->prepare($sql);
+// Verificar si el alumno ya está registrado
+$sqlVerificar = "SELECT * FROM alumnos WHERE numControl = ?";
+$stmtVerificar = $conexion->prepare($sqlVerificar);
 
-if ($stmt) {
-    $stmt->bind_param("sssssss", $numControl, $nombres, $apPat, $apMat, $telefono, $domicilio, $carrera);
-    
-    if ($stmt->execute()) {
-        echo "Alumno(a) agregado correctamente.";
-    } else {
-        echo "Error al agregar el alumno(a): " . $stmt->error;
-    }
+if (!$stmtVerificar) {
+    echo "Error al preparar la consulta de verificación: " . $conexion->error;
+    exit;
+}
 
-    $stmt->close();
+$stmtVerificar->bind_param("s", $numControl);
+$stmtVerificar->execute();
+$resultado = $stmtVerificar->get_result();
+
+if ($resultado->num_rows > 0) {
+    // Si el alumno ya está registrado
+    echo "Error: El alumno con número de control $numControl ya está registrado.";
+    $stmtVerificar->close();
+    $conexion->close();
+    exit;
+}
+
+// Cerrar la consulta de verificación
+$stmtVerificar->close();
+
+// Preparar y ejecutar la consulta de inserción
+$sqlInsertar = "INSERT INTO alumnos (numControl, nombres, apPat, apMat, telefono, domicilio, carrera) 
+                VALUES (?, ?, ?, ?, ?, ?, ?)";
+$stmtInsertar = $conexion->prepare($sqlInsertar);
+
+if (!$stmtInsertar) {
+    echo "Error al preparar la consulta de inserción: " . $conexion->error;
+    exit;
+}
+
+$stmtInsertar->bind_param("sssssss", $numControl, $nombres, $apPat, $apMat, $telefono, $domicilio, $carrera);
+
+if ($stmtInsertar->execute()) {
+    echo "Alumno(a) agregado correctamente.";
 } else {
-    echo "Error al preparar la consulta: " . $conexion->error;
+    echo "Error al agregar el alumno(a): " . $stmtInsertar->error;
 }
 
-// Cerrar conexión
+// Cerrar la consulta de inserción y la conexión
+$stmtInsertar->close();
 $conexion->close();
 ?>
