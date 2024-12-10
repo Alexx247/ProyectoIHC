@@ -73,16 +73,16 @@ include 'verificar_sesion.php';
                     placeholder="Ingrese el codigo del dispositivo a prestar" required>
             </div>
             <div class="mb-3">
-                <label for="numC" class="form-label">N° Control Alumno</label>
+                <label for="numC" class="form-label">N° Control alumno</label>
                 <input type="text" class="form-control" id="numC" name="numC" placeholder="Ingrese el número de control"
                     required>
             </div>
             <div class="mb-3">
-                <label for="fechaSolicitud" class="form-label">Fecha de Solicitud</label>
+                <label for="fechaSolicitud" class="form-label">Fecha de solicitud</label>
                 <input type="date" class="form-control" id="fechaSolicitud" name="fechaSolicitud" required>
             </div>
             <div class="mb-3">
-                <label for="fechaEntrega" class="form-label">Fecha Limite</label>
+                <label for="fechaEntrega" class="form-label">Fecha limite</label>
                 <input type="date" class="form-control" id="fechaEntrega" name="fechaEntrega" required>
             </div>
             <div class="mb-3">
@@ -99,23 +99,23 @@ include 'verificar_sesion.php';
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="editarModalLabel">Editar Préstamo</h5>
+                        <h5 class="modal-title" id="editarModalLabel">Editar préstamo</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                     </div>
                     <div class="modal-body">
                         <form id="editarPrestamoForm">
                             <input type="hidden" id="editIdDispositivo" name="idDispositivo">
                             <div class="mb-3">
-                                <label for="editNumC" class="form-label">N° Control Alumno</label>
+                                <label for="editNumC" class="form-label">N° Control alumno</label>
                                 <input type="text" class="form-control" id="editNumC" name="numC" required>
                             </div>
                             <div class="mb-3">
-                                <label for="editFechaSolicitud" class="form-label">Fecha de Solicitud</label>
+                                <label for="editFechaSolicitud" class="form-label">Fecha de solicitud</label>
                                 <input type="date" class="form-control" id="editFechaSolicitud" name="fechaSolicitud"
                                     required>
                             </div>
                             <div class="mb-3">
-                                <label for="editFechaEntrega" class="form-label">Fecha Limite</label>
+                                <label for="editFechaEntrega" class="form-label">Fecha limite</label>
                                 <input type="date" class="form-control" id="editFechaEntrega" name="fechaEntrega"
                                     required>
                             </div>
@@ -194,7 +194,7 @@ include 'verificar_sesion.php';
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="confirmarEliminacionModalLabel">Confirmación de Eliminación</h5>
+                        <h5 class="modal-title" id="confirmarEliminacionModalLabel">Confirmación de eliminación</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                     </div>
                     <div class="modal-body">
@@ -202,7 +202,7 @@ include 'verificar_sesion.php';
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-danger" id="confirmarEliminarBtn">Si, Eliminar</button>
+                        <button type="button" class="btn btn-danger" id="confirmarEliminarBtn">Si, eliminar</button>
                     </div>
                 </div>
             </div>
@@ -231,7 +231,7 @@ include 'verificar_sesion.php';
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="logoutModalLabel">Cerrar Sesión</h5>
+                        <h5 class="modal-title" id="logoutModalLabel">Cerrar sesión</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                     </div>
                     <div class="modal-body">
