@@ -79,7 +79,7 @@ include 'verificar_sesion.php';
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     <h2>Búsqueda de préstamos</h2>
-    <form method="GET" action="Prestamos.php">
+    <form method="GET" action="Prestamos_admin.php">
       <div class="mb-3">
         <label for="idDispositivo" class="form-label">Código del dispositivo</label>
         <input type="text" class="form-control" id="idDispositivo" name="idDispositivo" placeholder="Ingrese el ID del dispositivo">
