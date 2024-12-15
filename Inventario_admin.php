@@ -55,16 +55,15 @@ include 'verificar_sesion.php';
 
   <!-- Contenido Principal -->
   <div class="main-content">
-    <h2>Gestión de dispositivos</h2>
-    <div class="alert alert-info alert-dismissible fade show" role="alert" id="mensajeInfo">
+  <div class="alert alert-info alert-dismissible fade show" role="alert" id="mensajeInfo">
     Aquí puedes agregar, editar o eliminar dispositivos del inventario.
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-
+    <h2>Gestión de dispositivos</h2>
     <!-- Formulario de Registro de Dispositivo -->
     <form id="dispositivoForm">
       <div class="mb-3">
-        <label for="idDispositivo" class="form-label">Código</label>
+        <label for="idDispositivo" class="form-label">Código del dispositivo</label>
         <input type="text" class="form-control" id="idDispositivo" name="idDispositivo" placeholder="Ingrese el código del dispositivo">
       </div>
       <div class="mb-3">

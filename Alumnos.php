@@ -61,7 +61,7 @@ include 'verificar_sesion.php';
         <h2>Registro de alumnos</h2>
         <form id="alumnoForm">
             <div class="mb-3">
-                <label for="numControl" class="form-label">N° Control</label>
+                <label for="numControl" class="form-label">N° control</label>
                 <input type="text" class="form-control" id="numControl" name="numControl"
                     placeholder="Ingrese el número de control" required>
             </div>
@@ -229,7 +229,7 @@ include 'verificar_sesion.php';
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="confirmarEliminacionModalLabel">Confirmación de Eliminación</h5>
+                        <h5 class="modal-title" id="confirmarEliminacionModalLabel">Confirmación de eliminación</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                     </div>
                     <div class="modal-body">
@@ -237,7 +237,7 @@ include 'verificar_sesion.php';
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-danger" id="confirmarEliminarBtn">Si, Eliminar</button>
+                        <button type="button" class="btn btn-danger" id="confirmarEliminarBtn">Si, eliminar</button>
                     </div>
                 </div>
             </div>

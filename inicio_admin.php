@@ -29,15 +29,15 @@ include 'verificar_sesion.php';
                 <img src="img/inicio-azul.png" alt="Icono Inicio">
                 Inicio
             </a>
-            <a class="nav-link" href="Inventario.php">
+            <a class="nav-link" href="Inventario_admin.php">
                 <img src="img/inventario-foto.png" alt="Icono Inventario">
                 Inventario
             </a>
-            <a class="nav-link" href="Alumnos.php">
+            <a class="nav-link" href="Alumnos_admin.php">
                 <img src="img/alumnos-foto.png" alt="Icono Alumnos">
                 Alumnos
             </a>
-            <a class="nav-link" href="Prestamos.php">
+            <a class="nav-link" href="Prestamos_admin.php">
                 <img src="img/prestamos-foto.png" alt="Icono Préstamos">
                 Préstamos
             </a>
@@ -70,24 +70,24 @@ include 'verificar_sesion.php';
             <div class="mb-3">
                 <label for="idDispositivo" class="form-label">Código del dispositivo</label>
                 <input type="text" class="form-control" id="idDispositivo" name="idDispositivo"
-                    placeholder="Ingrese el codigo del dispositivo a prestar" required>
+                    placeholder="Ingrese el código del dispositivo a prestar" required>
             </div>
             <div class="mb-3">
-                <label for="numC" class="form-label">N° Control alumno</label>
+                <label for="numC" class="form-label">N° control alumno</label>
                 <input type="text" class="form-control" id="numC" name="numC" placeholder="Ingrese el número de control"
                     required>
             </div>
             <div class="mb-3">
                 <label for="fechaSolicitud" class="form-label">Fecha de solicitud</label>
-                <input type="date" class="form-control" id="fechaSolicitud" name="fechaSolicitud" required>
+                <input type="date" class="form-control input-fecha" id="fechaSolicitud" name="fechaSolicitud" required>
             </div>
             <div class="mb-3">
-                <label for="fechaEntrega" class="form-label">Fecha limite</label>
-                <input type="date" class="form-control" id="fechaEntrega" name="fechaEntrega" required>
+                <label for="fechaEntrega" class="form-label">Fecha límite</label>
+                <input type="date" class="form-control input-fecha" id="fechaEntrega" name="fechaEntrega" required>
             </div>
             <div class="mb-3">
                 <label for="aula" class="form-label">Aula</label>
-                <input type="text" class="form-control" id="aula" name="aula" placeholder="Ingrese el aula" required>
+                <input type="text" class="form-control" id="aula" name="aula" placeholder="Ingrese el aula donde se realizó el préstamo" required>
             </div>
             <div class="btn-group">
                 <button type="button" class="btn btn-primary" onclick="enviarFormulario()">Solicitar</button>
@@ -106,7 +106,7 @@ include 'verificar_sesion.php';
                         <form id="editarPrestamoForm">
                             <input type="hidden" id="editIdDispositivo" name="idDispositivo">
                             <div class="mb-3">
-                                <label for="editNumC" class="form-label">N° Control alumno</label>
+                                <label for="editNumC" class="form-label">N° control alumno</label>
                                 <input type="text" class="form-control" id="editNumC" name="numC" required>
                             </div>
                             <div class="mb-3">
@@ -426,12 +426,12 @@ include 'verificar_sesion.php';
             <thead>
                 <tr>
                     <th class="text-center">Codigo dispositivo</th>
-                    <th class="text-center">N° Control Alumno</th>
-                    <th class="text-center">Fecha de Solicitud</th>
-                    <th class="text-center">Fecha Limite</th>
+                    <th class="text-center">N° control alumno</th>
+                    <th class="text-center">Fecha de solicitud</th>
+                    <th class="text-center">Fecha limite</th>
                     <th class="text-center">Aula</th>
-                    <th class="text-center">Editar Préstamo</th>
-                    <th class="text-center">Eliminar Préstamo</th>
+                    <th class="text-center">Editar préstamo</th>
+                    <th class="text-center">Eliminar préstamo</th>
                 </tr>
             </thead>
             <tbody>

@@ -66,24 +66,24 @@ include 'verificar_sesion.php';
             <div class="mb-3">
                 <label for="idDispositivo" class="form-label">Código del dispositivo</label>
                 <input type="text" class="form-control" id="idDispositivo" name="idDispositivo"
-                    placeholder="Ingrese el codigo del dispositivo a prestar" required>
+                    placeholder="Ingrese el código del dispositivo a prestar" required>
             </div>
             <div class="mb-3">
-                <label for="numC" class="form-label">N° Control alumno</label>
+                <label for="numC" class="form-label">N° control alumno</label>
                 <input type="text" class="form-control" id="numC" name="numC" placeholder="Ingrese el número de control"
                     required>
             </div>
             <div class="mb-3">
                 <label for="fechaSolicitud" class="form-label">Fecha de solicitud</label>
-                <input type="date" class="form-control" id="fechaSolicitud" name="fechaSolicitud" required>
+                <input type="date" class="form-control input-fecha" id="fechaSolicitud" name="fechaSolicitud" required>
             </div>
             <div class="mb-3">
-                <label for="fechaEntrega" class="form-label">Fecha limite</label>
-                <input type="date" class="form-control" id="fechaEntrega" name="fechaEntrega" required>
+                <label for="fechaEntrega" class="form-label">Fecha límite</label>
+                <input type="date" class="form-control input-fecha" id="fechaEntrega" name="fechaEntrega" required>
             </div>
             <div class="mb-3">
                 <label for="aula" class="form-label">Aula</label>
-                <input type="text" class="form-control" id="aula" name="aula" placeholder="Ingrese el aula" required>
+                <input type="text" class="form-control" id="aula" name="aula" placeholder="Ingrese el aula donde se realizó el préstamo" required>
             </div>
             <div class="btn-group">
                 <button type="button" class="btn btn-primary" onclick="enviarFormulario()">Solicitar</button>
@@ -102,7 +102,7 @@ include 'verificar_sesion.php';
                         <form id="editarPrestamoForm">
                             <input type="hidden" id="editIdDispositivo" name="idDispositivo">
                             <div class="mb-3">
-                                <label for="editNumC" class="form-label">N° Control alumno</label>
+                                <label for="editNumC" class="form-label">N° control alumno</label>
                                 <input type="text" class="form-control" id="editNumC" name="numC" required>
                             </div>
                             <div class="mb-3">
@@ -190,7 +190,7 @@ include 'verificar_sesion.php';
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="confirmarEliminacionModalLabel">Confirmación de Eliminación</h5>
+                        <h5 class="modal-title" id="confirmarEliminacionModalLabel">Confirmación de eliminación</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                     </div>
                     <div class="modal-body">
@@ -198,7 +198,7 @@ include 'verificar_sesion.php';
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-danger" id="confirmarEliminarBtn">Si, Eliminar</button>
+                        <button type="button" class="btn btn-danger" id="confirmarEliminarBtn">Si, eliminar</button>
                     </div>
                 </div>
             </div>

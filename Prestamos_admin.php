@@ -119,8 +119,8 @@ include 'verificar_sesion.php';
     <table class="table table-striped">
       <thead>
         <tr>
-          <th class="text-center">Código Dispositivo</th>
-          <th class="text-center">N° Control alumno</th>
+          <th class="text-center">Código dispositivo</th>
+          <th class="text-center">N° control alumno</th>
           <th class="text-center">Fecha de solicitud</th>
           <th class="text-center">Fecha límite</th>
           <th class="text-center">Aula</th>
